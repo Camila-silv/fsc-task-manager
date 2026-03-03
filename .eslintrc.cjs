@@ -16,6 +16,7 @@ module.exports = {
   plugins: ["react", "react-hooks", "simple-import-sort"],
   rules: {
     "simple-import-sort/imports": "error",
+    "react/react-in-jsx-scope": "off",
   },
   settings: {
     react: {

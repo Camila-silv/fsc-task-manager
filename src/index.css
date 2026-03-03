@@ -1,135 +1,260 @@
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-Black.ttf") format("truetype");
-    font-weight: 900;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-BlackItalic.ttf") format("truetype");
-    font-weight: 900;
-    font-style: italic;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-BlackItalic.ttf") format("truetype");
+  font-weight: 900;
+  font-style: italic;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-Bold.ttf") format("truetype");
-    font-weight: 700;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-BoldItalic.ttf") format("truetype");
-    font-weight: 700;
-    font-style: italic;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-ExtraBold.ttf") format("truetype");
-    font-weight: 800;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-ExtraBoldItalic.ttf") format("truetype");
-    font-weight: 800;
-    font-style: italic;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-ExtraBoldItalic.ttf") format("truetype");
+  font-weight: 800;
+  font-style: italic;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-ExtraLight.ttf") format("truetype");
-    font-weight: 200;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-ExtraLightItalic.ttf")
-      format("truetype");
-    font-weight: 200;
-    font-style: italic;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: italic;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-Italic.ttf") format("truetype");
-    font-weight: 400;
-    font-style: italic;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-Light.ttf") format("truetype");
-    font-weight: 300;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-LightItalic.ttf") format("truetype");
-    font-weight: 300;
-    font-style: italic;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-Medium.ttf") format("truetype");
-    font-weight: 500;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-MediumItalic.ttf") format("truetype");
-    font-weight: 500;
-    font-style: italic;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: italic;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-Regular.ttf") format("truetype");
-    font-weight: 400;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-SemiBold.ttf") format("truetype");
-    font-weight: 600;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-SemiBoldItalic.ttf") format("truetype");
-    font-weight: 600;
-    font-style: italic;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-Thin.ttf") format("truetype");
-    font-weight: 100;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: "Poppins";
-    src: url("/src/assets/fonts/Poppins-ThinItalic.ttf") format("truetype");
-    font-weight: 100;
-    font-style: italic;
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins-ThinItalic.ttf") format("truetype");
+  font-weight: 100;
+  font-style: italic;
+}
+
+/* 200 - ExtraLight */
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: italic;
+}
+
+/* 300 - Light */
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* 400 - Regular */
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* 500 - Medium */
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* 600 - SemiBold */
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* 700 - Bold */
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* 800 - ExtraBold */
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-ExtraBoldItalic.ttf") format("truetype");
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* 900 - Black */
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito-BlackItalic.ttf") format("truetype");
+  font-weight: 900;
+  font-style: italic;
+}
 
 @import "tailwindcss";
 
+/* ================= THEME ================= */
+
 @theme {
+  /* Fontes */
   --font-sans: "Poppins", sans-serif;
+  --font-secondary: "Nunito";
 }
+
+/* ================= THEME ================= */
 
 body {
   @apply font-sans;
