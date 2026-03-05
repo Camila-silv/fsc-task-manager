@@ -1,0 +1,32 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "name": "Estudar FSC",
+      "description": "traralelo trarara",
+      "status": "not_started",
+      "time": "morning"
+    },
+    {
+      "id": "2",
+      "name": "Ler Crônicas do Mundo Emerso",
+      "description": "pipipopopo",
+      "status": "in_progress",
+      "time": "afternoon"
+    },
+    {
+      "id": "3",
+      "name": "Começar a desenvover o task-manager",
+      "description": "traralelo trarara",
+      "status": "done",
+      "time": "evening"
+    },
+    {
+      "id": "4",
+      "name": "Iniciar curso React",
+      "description": "traralelo trarara",
+      "status": "done",
+      "time": "evening"
+    }
+  ]
+}
