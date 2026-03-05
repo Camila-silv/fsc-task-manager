@@ -1,5 +1,10 @@
+import AddTaskIcon from "../src/assets/icons/add-task.svg?react";
 import HomeIcon from "../src/assets/icons/home.svg?react";
+import SunIcon from "../src/assets/icons/sun.svg?react";
 import TasksIcon from "../src/assets/icons/tasks.svg?react";
+import TrashIcon from "../src/assets/icons/trash.svg?react";
+import Button from "./components/Button";
+import TaskItem from "./components/TaskItem";
 
 function App() {
   return (
@@ -20,7 +25,7 @@ function App() {
               <a
                 href="/"
                 title="Início"
-                className="fw-semibold font-secondary flex items-center gap-2 rounded-[10px] bg-transparent px-6 py-3 text-sm text-[#35383E] transition delay-150 duration-300 ease-in-out hover:bg-[#E6F7F8] hover:text-[#00ADB5]"
+                className="font-secondary flex items-center gap-2 rounded-[10px] bg-transparent px-6 py-3 text-sm font-semibold text-[#35383E] transition delay-150 duration-300 ease-in-out hover:bg-[#E6F7F8] hover:text-[#00ADB5]"
               >
                 <HomeIcon /> Início
               </a>
@@ -29,7 +34,7 @@ function App() {
               <a
                 href="/"
                 title="Minhas Tarefas"
-                className="fw-semibold font-secondary flex items-center gap-2 rounded-[10px] bg-[#E6F7F8] px-6 py-3 text-sm text-[#00ADB5] transition delay-150 duration-300 ease-in-out hover:bg-[#E6F7F8] hover:text-[#00ADB5]"
+                className="font-secondary flex items-center gap-2 rounded-[10px] bg-[#E6F7F8] px-6 py-3 text-sm font-semibold text-[#00ADB5] transition delay-150 duration-300 ease-in-out hover:bg-[#E6F7F8] hover:text-[#00ADB5]"
               >
                 <TasksIcon /> Minhas Tarefas
               </a>
@@ -37,7 +42,43 @@ function App() {
           </ul>
         </nav>
       </aside>
-      <main className="w-full px-8.5 pt-17.5">conteudo principal</main>
+      <main className="flex w-full flex-col gap-6 px-8.5 pt-17.5">
+        <header className="flex items-end justify-between gap-3">
+          <div className="flex flex-col gap-1.5">
+            <a
+              href=";"
+              title="Minhas Tarefas"
+              className="font-sans text-xs font-semibold text-[#00ADB5]"
+            >
+              Minhas Tarefas
+            </a>
+            <h2 className="text-xl font-semibold text-[#35383E]">
+              Minhas Tarefas
+            </h2>
+          </div>
+
+          <div className="flex gap-2.5">
+            <Button variant="ghost">
+              Limpar tarefas <TrashIcon />
+            </Button>
+
+            <Button variant="primary">
+              Nova tarefa <AddTaskIcon />
+            </Button>
+          </div>
+        </header>
+        <div className="flex flex-col gap-6 rounded-[10px] bg-white p-6">
+          <div className="flex flex-col gap-3">
+            <h2 className="flex items-center gap-[6.4px] text-[14px] font-semibold text-[#9A9C9F]">
+              <SunIcon /> Manhã
+            </h2>
+            <hr className="text-[#F4F4F5]" />
+            <div className="flex flex-col gap-3">
+              <TaskItem status="done" />
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

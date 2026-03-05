@@ -252,6 +252,18 @@
   /* Fontes */
   --font-sans: "Poppins", sans-serif;
   --font-secondary: "Nunito";
+
+  /* Cores Brand */
+  --brand-dark-blue: #35383E;
+  --brand-primary: #00ADB5;
+  --brand-dark-gray: #818181;
+  --brand-text-gray: #9A9C9F;
+  --brand-light-gray: #EEEEEE;
+  --brand-white: #FFFFFF;
+  --brand-background: #F8F8F8;
+  --brand-border: #F4F4F5;
+  --brand-process: #FFAA04;
+  --brand-danger: #EF4444;
 }
 
 /* ================= THEME ================= */
