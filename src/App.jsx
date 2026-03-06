@@ -11,9 +11,7 @@ import TaskItem from "./components/TaskItem";
 import TaskSection from "./components/TaskSection";
 
 function App() {
-  const [morningTasks, setMorningTasks] = useState([]);
-  const [afternoonTasks, setAfternoonTasks] = useState([]);
-  const [eveningTasks, setEveningTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -24,10 +22,7 @@ function App() {
         }
 
         const result = await response.json();
-
-        setMorningTasks(result.filter((task) => task.time === "morning"));
-        setAfternoonTasks(result.filter((task) => task.time === "afternoon"));
-        setEveningTasks(result.filter((task) => task.time === "evening"));
+        setTasks(result);
       } catch (error) {
         console.log(`Algo deu errado, segue o erro em questão: `.error);
       } finally {
@@ -36,7 +31,40 @@ function App() {
     };
 
     fetchTasks();
+    console.log("fetch executado");
   }, []);
+
+  const handleTaskState = (id) => {
+    setTasks((prevTasks) => {
+      return prevTasks.map((task) => {
+        if (task.id !== id) return task;
+
+        switch (task.status) {
+          case "not_started":
+            return {
+              ...task,
+              status: "in_progress",
+            };
+          case "in_progress":
+            return {
+              ...task,
+              status: "done",
+            };
+          case "done":
+            return {
+              ...task,
+              status: "not_started",
+            };
+          default:
+            return task;
+        }
+      });
+    });
+  };
+
+  const morningTasks = tasks?.filter((task) => task.time === "morning");
+  const afternoonTasks = tasks?.filter((task) => task.time === "afternoon");
+  const eveningTasks = tasks?.filter((task) => task.time === "evening");
 
   return (
     <div className="mx-auto flex max-w-480 bg-[#f8f8f8]">
@@ -70,19 +98,37 @@ function App() {
         <div className="flex flex-col gap-6 rounded-[10px] bg-white p-6">
           <TaskSection icon={<SunIcon />} title="Manhã">
             {morningTasks.map((task) => {
-              return <TaskItem task={task} key={task.id} />;
+              return (
+                <TaskItem
+                  task={task}
+                  key={task.id}
+                  handleTaskState={handleTaskState}
+                />
+              );
             })}
           </TaskSection>
 
           <TaskSection icon={<CloudSunIcon />} title="Tarde">
             {afternoonTasks.map((task) => {
-              return <TaskItem task={task} key={task.id} />;
+              return (
+                <TaskItem
+                  task={task}
+                  key={task.id}
+                  handleTaskState={handleTaskState}
+                />
+              );
             })}
           </TaskSection>
 
           <TaskSection icon={<MoonIcon />} title="Noite">
             {eveningTasks.map((task) => {
-              return <TaskItem task={task} key={task.id} />;
+              return (
+                <TaskItem
+                  task={task}
+                  key={task.id}
+                  handleTaskState={handleTaskState}
+                />
+              );
             })}
           </TaskSection>
         </div>

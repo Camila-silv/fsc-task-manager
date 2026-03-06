@@ -4,7 +4,7 @@ import CheckedIcon from "../assets/icons/checked.svg?react";
 import LoaderIcon from "../assets/icons/loader.svg?react";
 import TaskInfIcon from "../assets/icons/task-inf.svg?react";
 
-const TaskItem = ({ task }) => {
+const TaskItem = ({ task, handleTaskState }) => {
   const getVariantClass = () => {
     if (task.status === "done") {
       return {
@@ -34,12 +34,13 @@ const TaskItem = ({ task }) => {
     >
       <div className="flex items-center gap-3">
         <label
-          htmlFor="task"
+          htmlFor={`task-${task.id}`}
           className={`relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg ${getVariantClass().bgSolit}`}
+          onClick={() => handleTaskState(task.id)}
         >
           <input
             type="checkbox"
-            id="task"
+            id={`task-${task.id}`}
             className="absolute h-full w-full cursor-pointer opacity-0"
           />
 
@@ -62,4 +63,5 @@ export default TaskItem;
 
 TaskItem.propTypes = {
   task: PropTypes.object,
+  handleTaskState: PropTypes.func,
 };
