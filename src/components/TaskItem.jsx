@@ -4,7 +4,7 @@ import CheckedIcon from "../assets/icons/checked.svg?react";
 import LoaderIcon from "../assets/icons/loader.svg?react";
 import TaskInfIcon from "../assets/icons/task-inf.svg?react";
 
-const TaskItem = ({ task, handleTaskState }) => {
+const TaskItem = ({ task, handleTasks }) => {
   const getVariantClass = () => {
     if (task.status === "done") {
       return {
@@ -28,6 +28,35 @@ const TaskItem = ({ task, handleTaskState }) => {
       bg: "bg-[#D9D9D9]/10",
     };
   };
+
+  const handleTaskState = (id) => {
+    handleTasks((prevTasks) => {
+      return prevTasks.map((task) => {
+        if (task.id !== id) return task;
+
+        switch (task.status) {
+          case "not_started":
+            return {
+              ...task,
+              status: "in_progress",
+            };
+          case "in_progress":
+            return {
+              ...task,
+              status: "done",
+            };
+          case "done":
+            return {
+              ...task,
+              status: "not_started",
+            };
+          default:
+            return task;
+        }
+      });
+    });
+  };
+
   return (
     <div
       className={`flex items-center justify-between gap-6 rounded-[10px] px-4 py-3 text-[14px] font-normal ${getVariantClass().bg} ${getVariantClass().text}`}
@@ -36,11 +65,12 @@ const TaskItem = ({ task, handleTaskState }) => {
         <label
           htmlFor={`task-${task.id}`}
           className={`relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg ${getVariantClass().bgSolit}`}
-          onClick={() => handleTaskState(task.id)}
         >
           <input
             type="checkbox"
+            onChange={() => handleTaskState(task.id)}
             id={`task-${task.id}`}
+            checked={task.status === "done"}
             className="absolute h-full w-full cursor-pointer opacity-0"
           />
 
@@ -63,5 +93,5 @@ export default TaskItem;
 
 TaskItem.propTypes = {
   task: PropTypes.object,
-  handleTaskState: PropTypes.func,
+  handleTasks: PropTypes.func,
 };

@@ -31,36 +31,7 @@ function App() {
     };
 
     fetchTasks();
-    console.log("fetch executado");
   }, []);
-
-  const handleTaskState = (id) => {
-    setTasks((prevTasks) => {
-      return prevTasks.map((task) => {
-        if (task.id !== id) return task;
-
-        switch (task.status) {
-          case "not_started":
-            return {
-              ...task,
-              status: "in_progress",
-            };
-          case "in_progress":
-            return {
-              ...task,
-              status: "done",
-            };
-          case "done":
-            return {
-              ...task,
-              status: "not_started",
-            };
-          default:
-            return task;
-        }
-      });
-    });
-  };
 
   const morningTasks = tasks?.filter((task) => task.time === "morning");
   const afternoonTasks = tasks?.filter((task) => task.time === "afternoon");
@@ -99,11 +70,7 @@ function App() {
           <TaskSection icon={<SunIcon />} title="Manhã">
             {morningTasks.map((task) => {
               return (
-                <TaskItem
-                  task={task}
-                  key={task.id}
-                  handleTaskState={handleTaskState}
-                />
+                <TaskItem task={task} key={task.id} handleTasks={setTasks} />
               );
             })}
           </TaskSection>
@@ -111,11 +78,7 @@ function App() {
           <TaskSection icon={<CloudSunIcon />} title="Tarde">
             {afternoonTasks.map((task) => {
               return (
-                <TaskItem
-                  task={task}
-                  key={task.id}
-                  handleTaskState={handleTaskState}
-                />
+                <TaskItem task={task} key={task.id} handleTasks={setTasks} />
               );
             })}
           </TaskSection>
@@ -123,11 +86,7 @@ function App() {
           <TaskSection icon={<MoonIcon />} title="Noite">
             {eveningTasks.map((task) => {
               return (
-                <TaskItem
-                  task={task}
-                  key={task.id}
-                  handleTaskState={handleTaskState}
-                />
+                <TaskItem task={task} key={task.id} handleTasks={setTasks} />
               );
             })}
           </TaskSection>
