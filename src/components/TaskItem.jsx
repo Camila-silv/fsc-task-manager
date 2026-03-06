@@ -4,9 +4,9 @@ import CheckedIcon from "../assets/icons/checked.svg?react";
 import LoaderIcon from "../assets/icons/loader.svg?react";
 import TaskInfIcon from "../assets/icons/task-inf.svg?react";
 
-const TaskItem = ({ status = "not_started" }) => {
+const TaskItem = ({ task }) => {
   const getVariantClass = () => {
-    if (status === "done") {
+    if (task.status === "done") {
       return {
         text: "text-[#002C2E]",
         bgSolit: "bg-[var(--brand-primary)]",
@@ -14,7 +14,7 @@ const TaskItem = ({ status = "not_started" }) => {
       };
     }
 
-    if (status === "in_progress") {
+    if (task.status === "in_progress") {
       return {
         text: "text-[#ffab048e]",
         bgSolit: "bg-[var(--brand-process)]",
@@ -43,10 +43,12 @@ const TaskItem = ({ status = "not_started" }) => {
             className="absolute h-full w-full cursor-pointer opacity-0"
           />
 
-          {status === "done" && <CheckedIcon />}
-          {status === "in_progress" && <LoaderIcon className="animate-spin" />}
+          {task.status === "done" && <CheckedIcon />}
+          {task.status === "in_progress" && (
+            <LoaderIcon className="animate-spin" />
+          )}
         </label>
-        Lorem
+        {task.name}
       </div>
 
       <a href="/" title="Mais informações da tarefa">
@@ -59,5 +61,5 @@ const TaskItem = ({ status = "not_started" }) => {
 export default TaskItem;
 
 TaskItem.propTypes = {
-  status: PropTypes.string,
+  task: PropTypes.object,
 };

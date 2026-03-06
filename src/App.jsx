@@ -1,12 +1,44 @@
+import { useEffect, useState } from "react";
+
 import AddTaskIcon from "../src/assets/icons/add-task.svg?react";
+import CloudSunIcon from "../src/assets/icons/cloud-sun.svg?react";
 import HomeIcon from "../src/assets/icons/home.svg?react";
+import MoonIcon from "../src/assets/icons/moon.svg?react";
 import SunIcon from "../src/assets/icons/sun.svg?react";
 import TasksIcon from "../src/assets/icons/tasks.svg?react";
 import TrashIcon from "../src/assets/icons/trash.svg?react";
 import Button from "./components/Button";
 import TaskItem from "./components/TaskItem";
+import TaskSection from "./components/TaskSection";
 
 function App() {
+  const [morningTasks, setMorningTasks] = useState([]);
+  const [afternoonTasks, setAfternoonTasks] = useState([]);
+  const [eveningTasks, setEveningTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/tasks");
+        if (!response.ok) {
+          return console.log("Algo deu errado.");
+        }
+
+        const result = await response.json();
+
+        setMorningTasks(result.filter((task) => task.time === "morning"));
+        setAfternoonTasks(result.filter((task) => task.time === "afternoon"));
+        setEveningTasks(result.filter((task) => task.time === "evening"));
+      } catch (error) {
+        console.log(`Algo deu errado, segue o erro em questão: `.error);
+      } finally {
+        console.log("eh isto.");
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
   return (
     <div className="mx-auto flex max-w-480 bg-[#f8f8f8]">
       <aside className="w-min-72 h-screen w-72 bg-[#FFFFFF]">
@@ -67,16 +99,25 @@ function App() {
             </Button>
           </div>
         </header>
+
         <div className="flex flex-col gap-6 rounded-[10px] bg-white p-6">
-          <div className="flex flex-col gap-3">
-            <h2 className="flex items-center gap-[6.4px] text-[14px] font-semibold text-[#9A9C9F]">
-              <SunIcon /> Manhã
-            </h2>
-            <hr className="text-[#F4F4F5]" />
-            <div className="flex flex-col gap-3">
-              <TaskItem status="done" />
-            </div>
-          </div>
+          <TaskSection icon={<SunIcon />} title="Manhã">
+            {morningTasks.map((task) => {
+              return <TaskItem task={task} key={task.id} />;
+            })}
+          </TaskSection>
+
+          <TaskSection icon={<CloudSunIcon />} title="Tarde">
+            {afternoonTasks.map((task) => {
+              return <TaskItem task={task} key={task.id} />;
+            })}
+          </TaskSection>
+
+          <TaskSection icon={<MoonIcon />} title="Noite">
+            {eveningTasks.map((task) => {
+              return <TaskItem task={task} key={task.id} />;
+            })}
+          </TaskSection>
         </div>
       </main>
     </div>
