@@ -44,7 +44,7 @@ function App() {
         <header className="flex items-end justify-between gap-3">
           <div className="flex flex-col gap-1.5">
             <a
-              href=";"
+              href="#"
               title="Minhas Tarefas"
               className="font-sans text-xs font-semibold text-[#00ADB5]"
             >
@@ -70,7 +70,12 @@ function App() {
           <TaskSection icon={<SunIcon />} title="Manhã">
             {morningTasks.map((task) => {
               return (
-                <TaskItem task={task} key={task.id} handleTasks={setTasks} />
+                <TaskItem
+                  task={task}
+                  key={task.id}
+                  handleTasks={setTasks}
+                  tasks={tasks}
+                />
               );
             })}
           </TaskSection>
@@ -78,7 +83,12 @@ function App() {
           <TaskSection icon={<CloudSunIcon />} title="Tarde">
             {afternoonTasks.map((task) => {
               return (
-                <TaskItem task={task} key={task.id} handleTasks={setTasks} />
+                <TaskItem
+                  task={task}
+                  key={task.id}
+                  handleTasks={setTasks}
+                  tasks={tasks}
+                />
               );
             })}
           </TaskSection>
@@ -86,7 +96,12 @@ function App() {
           <TaskSection icon={<MoonIcon />} title="Noite">
             {eveningTasks.map((task) => {
               return (
-                <TaskItem task={task} key={task.id} handleTasks={setTasks} />
+                <TaskItem
+                  task={task}
+                  key={task.id}
+                  handleTasks={setTasks}
+                  tasks={tasks}
+                />
               );
             })}
           </TaskSection>

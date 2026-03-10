@@ -17,7 +17,7 @@ const SideBar = () => {
         <ul className="flex flex-col gap-2">
           <li>
             <a
-              href="/"
+              href="#"
               title="Início"
               className="font-secondary flex items-center gap-2 rounded-[10px] bg-transparent px-6 py-3 text-sm font-semibold text-[#35383E] transition delay-150 duration-300 ease-in-out hover:bg-[#E6F7F8] hover:text-[#00ADB5]"
             >
@@ -26,7 +26,7 @@ const SideBar = () => {
           </li>
           <li>
             <a
-              href="/"
+              href="#"
               title="Minhas Tarefas"
               className="font-secondary flex items-center gap-2 rounded-[10px] bg-[#E6F7F8] px-6 py-3 text-sm font-semibold text-[#00ADB5] transition delay-150 duration-300 ease-in-out hover:bg-[#E6F7F8] hover:text-[#00ADB5]"
             >

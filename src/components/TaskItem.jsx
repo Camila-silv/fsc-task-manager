@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import CheckedIcon from "../assets/icons/checked.svg?react";
 import LoaderIcon from "../assets/icons/loader.svg?react";
 import TaskInfIcon from "../assets/icons/task-inf.svg?react";
+import TrashIcon from "../assets/icons/trash.svg?react";
+import Button from "./Button";
 
-const TaskItem = ({ task, handleTasks }) => {
+const TaskItem = ({ task, handleTasks, tasks }) => {
   const getVariantClass = () => {
     if (task.status === "done") {
       return {
@@ -57,6 +59,11 @@ const TaskItem = ({ task, handleTasks }) => {
     });
   };
 
+  const deleteTask = async (id) => {
+    const result = tasks.filter((task) => task.id !== id);
+    handleTasks(result);
+  };
+
   return (
     <div
       className={`flex items-center justify-between gap-6 rounded-[10px] px-4 py-3 text-[14px] font-normal ${getVariantClass().bg} ${getVariantClass().text}`}
@@ -82,9 +89,15 @@ const TaskItem = ({ task, handleTasks }) => {
         {task.name}
       </div>
 
-      <a href="/" title="Mais informações da tarefa">
-        <TaskInfIcon />
-      </a>
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" onClick={() => deleteTask(task.id)}>
+          <TrashIcon />
+        </Button>
+
+        <a href="#" title="Mais informações da tarefa">
+          <TaskInfIcon />
+        </a>
+      </div>
     </div>
   );
 };
@@ -93,5 +106,6 @@ export default TaskItem;
 
 TaskItem.propTypes = {
   task: PropTypes.object,
+  tasks: PropTypes.object,
   handleTasks: PropTypes.func,
 };
