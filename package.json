@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.1",
+    "framer-motion": "^12.35.2",
     "json-server": "^1.0.0-beta.12",
     "prop-types": "^15.8.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-transition-group": "^4.4.5",
     "tailwindcss": "^4.2.1",
     "vite-plugin-svgr": "^4.5.0"
   },
