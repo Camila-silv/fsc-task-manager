@@ -1,90 +1,131 @@
-import { AnimatePresence,motion } from "framer-motion";
+// import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { createPortal } from "react-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import Button from "./Button";
 import InputGroup from "./InputGroup";
+import TimeSelect from "./TimeSelect";
 
-const Modal = ({ handleShowModal, showModal }) => {
+const Modal = ({ handleShowModal, handleTasks }) => {
+  const [title, setTitle] = useState("");
+  const [time, setTime] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [errors, setErrors] = useState([]);
+
+  const addTask = () => {
+    const newErrors = [];
+
+    if (!title.trim()) {
+      newErrors.push({
+        inputName: "title",
+        message: "Digite um titulo válido.",
+      });
+    }
+
+    if (!time.trim()) {
+      newErrors.push({
+        inputName: "time",
+        message: "Selecione um horário.",
+      });
+    }
+
+    if (!description.trim()) {
+      newErrors.push({
+        inputName: "description",
+        message: "Digite uma descrição válida.",
+      });
+    }
+
+    setErrors(newErrors);
+
+    if (newErrors.length > 0) return;
+
+    const newTask = {
+      id: uuidv4(),
+      title,
+      time,
+      description,
+      status: "not_started",
+    };
+
+    handleTasks((tasks) => {
+      return [...tasks, newTask];
+    });
+
+    handleShowModal(false);
+    setTitle("");
+    setDescription("");
+  };
+
+  const titleError = errors.find((error) => error.inputName === "title");
+  const descriptionError = errors.find(
+    (error) => error.inputName === "description"
+  );
+  const timeError = errors.find((error) => error.inputName === "time");
+
   return (
     <>
       {createPortal(
-        <AnimatePresence>
-          {showModal && (
-            <motion.div
-              className="fixed top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-[#09090B1F]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.form
-                className="flex w-full max-w-84 flex-col gap-4 rounded-xl bg-white p-5"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                transition={{ duration: 0.2 }}
+        <div className="fixed top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-[#09090B1F]">
+          <form className="flex w-full max-w-84 flex-col gap-4 rounded-xl bg-white p-5">
+            <div className="flex flex-col items-center gap-1">
+              <h2 className="text-center text-[20px] font-semibold text-[#35383E]">
+                Nova Tarefa
+              </h2>
+
+              <h3 className="text-center text-[14px] font-normal text-[#9A9C9F]">
+                Insira as informações abaixo
+              </h3>
+            </div>
+
+            <InputGroup
+              title="Título"
+              name="title"
+              placeholder="Título da tarefa"
+              value={title}
+              error={titleError}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+
+            <TimeSelect
+              error={timeError}
+              onChange={(e) => setTime(e.target.value)}
+              value={time}
+            />
+
+            <InputGroup
+              title="Descrição"
+              name="description"
+              placeholder="Descreva a tarefa"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+              error={descriptionError}
+            />
+
+            <div className="flex items-center gap-3">
+              <Button
+                color="secondary"
+                size="large"
+                className="w-full"
+                onClick={() => handleShowModal(false)}
               >
-                <div className="flex flex-col items-center gap-1">
-                  <h2 className="text-center text-[20px] font-semibold text-[#35383E]">
-                    Nova Tarefa
-                  </h2>
+                Cancelar
+              </Button>
 
-                  <h3 className="text-center text-[14px] font-normal text-[#9A9C9F]">
-                    Insira as informações abaixo
-                  </h3>
-                </div>
-
-                <InputGroup
-                  title="Título"
-                  name="name"
-                  placeholder="Título da tarefa"
-                />
-
-                <div className="flex flex-col gap-1">
-                  <label
-                    htmlFor="time"
-                    className="text-[14px] font-semibold text-[#35383E]"
-                  >
-                    Horário
-                  </label>
-
-                  <select
-                    name="time"
-                    id="time"
-                    className="w-full rounded-lg border border-[#ECECEC] px-4 py-3 text-[14px] focus:outline-none"
-                  >
-                    <option value="">Selecione</option>
-                    <option value="Manhã">Manhã</option>
-                    <option value="Tarde">Tarde</option>
-                    <option value="Noite">Noite</option>
-                  </select>
-                </div>
-
-                <InputGroup
-                  title="Descrição"
-                  name="description"
-                  placeholder="Descreva a tarefa"
-                />
-
-                <div className="flex items-center gap-3">
-                  <Button
-                    variant="secondary"
-                    size="large"
-                    className="w-full"
-                    onClick={() => handleShowModal(false)}
-                  >
-                    Cancelar
-                  </Button>
-
-                  <Button variant="primary" size="large" className="w-full">
-                    Salvar
-                  </Button>
-                </div>
-              </motion.form>
-            </motion.div>
-          )}
-        </AnimatePresence>,
+              <Button
+                color="primary"
+                size="large"
+                className="w-full"
+                onClick={addTask}
+              >
+                Salvar
+              </Button>
+            </div>
+          </form>
+        </div>,
         document.body
       )}
     </>
@@ -95,5 +136,5 @@ export default Modal;
 
 Modal.propTypes = {
   handleShowModal: PropTypes.func,
-  showModal: PropTypes.bool,
+  handleTasks: PropTypes.func,
 };

@@ -13,7 +13,7 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
     variants: {
       color: {
         done: "bg-[var(--brand-primary)]/10 text-[#002C2E]",
-        in_progress: "bg-[var(--brand-process)]/10 text-[#ffab048e]",
+        in_progress: "bg-[var(--brand-process)]/10 text-[#724c00]",
         not_started: "bg-[#D9D9D9]/10 text-[#35383E]",
       },
     },
@@ -89,7 +89,7 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
             <LoaderIcon className="animate-spin" />
           )}
         </label>
-        {task.name}
+        {task.title}
       </div>
 
       <div className="flex items-center gap-2">
