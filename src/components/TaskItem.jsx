@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { toast } from "sonner";
 import { tv } from "tailwind-variants";
 
 import CheckedIcon from "../assets/icons/checked.svg?react";
@@ -62,11 +63,15 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
         }
       });
     });
+
+    toast.success("Estado da tarefa alterada.");
   };
 
   const deleteTask = async (id) => {
     const result = tasks.filter((task) => task.id !== id);
     handleTasks(result);
+
+    toast.success("Tarefa deletada.");
   };
 
   return (

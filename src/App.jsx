@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Toaster } from "sonner";
 
 import AddTaskIcon from "../src/assets/icons/add-task.svg?react";
 import CloudSunIcon from "../src/assets/icons/cloud-sun.svg?react";
@@ -115,6 +116,8 @@ function App() {
       {showModal && (
         <Modal handleShowModal={setShowModal} handleTasks={setTasks} />
       )}
+
+      <Toaster />
     </>
   );
 }

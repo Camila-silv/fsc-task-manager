@@ -2,6 +2,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 
 import Button from "./Button";
@@ -58,6 +59,7 @@ const Modal = ({ handleShowModal, handleTasks }) => {
     handleShowModal(false);
     setTitle("");
     setDescription("");
+    toast.success("Tarefa adicionada");
   };
 
   const titleError = errors.find((error) => error.inputName === "title");
