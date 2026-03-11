@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { tv } from "tailwind-variants";
 
 import CheckedIcon from "../assets/icons/checked.svg?react";
 import LoaderIcon from "../assets/icons/loader.svg?react";
@@ -7,29 +8,33 @@ import TrashIcon from "../assets/icons/trash.svg?react";
 import Button from "./Button";
 
 const TaskItem = ({ task, handleTasks, tasks }) => {
-  const getVariantClass = () => {
-    if (task.status === "done") {
-      return {
-        text: "text-[#002C2E]",
-        bgSolit: "bg-[var(--brand-primary)]",
-        bg: "bg-[var(--brand-primary)]/10",
-      };
-    }
+  const taskItem = tv({
+    base: "flex items-center justify-between gap-6 rounded-[10px] px-4 py-3 text-[14px] font-normal",
+    variants: {
+      color: {
+        done: "bg-[var(--brand-primary)]/10 text-[#002C2E]",
+        in_progress: "bg-[var(--brand-process)]/10 text-[#ffab048e]",
+        not_started: "bg-[#D9D9D9]/10 text-[#35383E]",
+      },
+    },
+    defaultVariants: {
+      color: "not_started",
+    },
+  });
 
-    if (task.status === "in_progress") {
-      return {
-        text: "text-[#ffab048e]",
-        bgSolit: "bg-[var(--brand-process)]",
-        bg: "bg-[var(--brand-process)]/10",
-      };
-    }
-
-    return {
-      text: "text-[#35383E]",
-      bgSolit: "bg-[#D9D9D9]",
-      bg: "bg-[#D9D9D9]/10",
-    };
-  };
+  const label = tv({
+    base: "relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg",
+    variants: {
+      color: {
+        done: "bg-[var(--brand-primary)]",
+        in_progress: "bg-[var(--brand-process)]",
+        not_started: "bg-[#D9D9D9]",
+      },
+    },
+    defaultVariants: {
+      color: "not_started",
+    },
+  });
 
   const handleTaskState = (id) => {
     handleTasks((prevTasks) => {
@@ -65,13 +70,11 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
   };
 
   return (
-    <div
-      className={`flex items-center justify-between gap-6 rounded-[10px] px-4 py-3 text-[14px] font-normal ${getVariantClass().bg} ${getVariantClass().text}`}
-    >
+    <div className={taskItem({ color: task.status })}>
       <div className="flex items-center gap-3">
         <label
           htmlFor={`task-${task.id}`}
-          className={`relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg ${getVariantClass().bgSolit}`}
+          className={label({ color: task.status })}
         >
           <input
             type="checkbox"
@@ -90,7 +93,7 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button variant="ghost" onClick={() => deleteTask(task.id)}>
+        <Button color="ghost" onClick={() => deleteTask(task.id)}>
           <TrashIcon />
         </Button>
 
@@ -106,6 +109,6 @@ export default TaskItem;
 
 TaskItem.propTypes = {
   task: PropTypes.object,
-  tasks: PropTypes.object,
+  tasks: PropTypes.array,
   handleTasks: PropTypes.func,
 };
