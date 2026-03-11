@@ -1,6 +1,6 @@
 // import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
@@ -10,14 +10,18 @@ import InputGroup from "./InputGroup";
 import TimeSelect from "./TimeSelect";
 
 const Modal = ({ handleShowModal, handleTasks }) => {
-  const [title, setTitle] = useState("");
-  const [time, setTime] = useState("");
-  const [description, setDescription] = useState("");
+  const titleRef = useRef();
+  const timeRef = useRef();
+  const descriptionRef = useRef();
 
   const [errors, setErrors] = useState([]);
 
   const addTask = () => {
     const newErrors = [];
+
+    const title = titleRef.current.value;
+    const time = timeRef.current.value;
+    const description = descriptionRef.current.value;
 
     if (!title.trim()) {
       newErrors.push({
@@ -57,8 +61,8 @@ const Modal = ({ handleShowModal, handleTasks }) => {
     });
 
     handleShowModal(false);
-    setTitle("");
-    setDescription("");
+    titleRef.current.value = "";
+    descriptionRef.current.value = "";
     toast.success("Tarefa adicionada");
   };
 
@@ -87,24 +91,18 @@ const Modal = ({ handleShowModal, handleTasks }) => {
               title="Título"
               name="title"
               placeholder="Título da tarefa"
-              value={title}
               error={titleError}
-              onChange={(e) => setTitle(e.target.value)}
+              ref={titleRef}
             />
 
-            <TimeSelect
-              error={timeError}
-              onChange={(e) => setTime(e.target.value)}
-              value={time}
-            />
+            <TimeSelect error={timeError} ref={timeRef} />
 
             <InputGroup
               title="Descrição"
               name="description"
               placeholder="Descreva a tarefa"
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
               error={descriptionError}
+              ref={descriptionRef}
             />
 
             <div className="flex items-center gap-3">
