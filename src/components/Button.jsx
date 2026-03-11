@@ -5,6 +5,7 @@ const Button = ({
   children,
   color = "primary",
   size = "small",
+  type = "button",
   className,
   ...rest
 }) => {
@@ -29,7 +30,7 @@ const Button = ({
 
   return (
     <button
-      type="button"
+      type={type}
       className={button({ color, size, className })}
       {...rest}
     >
@@ -44,5 +45,6 @@ Button.propTypes = {
   color: PropTypes.string,
   children: PropTypes.children,
   size: PropTypes.string,
+  type: PropTypes.string,
   className: PropTypes.string,
 };

@@ -59,11 +59,11 @@ function App() {
             </div>
 
             <div className="flex gap-2.5">
-              <Button variant="ghost">
+              <Button color="ghost">
                 Limpar tarefas <TrashIcon />
               </Button>
 
-              <Button variant="primary" onClick={() => setShowModal(true)}>
+              <Button color="primary" onClick={() => setShowModal(true)}>
                 Nova tarefa <AddTaskIcon />
               </Button>
             </div>
@@ -113,7 +113,7 @@ function App() {
       </div>
 
       {showModal && (
-        <Modal handleShowModal={setShowModal} showModal={showModal} />
+        <Modal handleShowModal={setShowModal} handleTasks={setTasks} />
       )}
     </>
   );

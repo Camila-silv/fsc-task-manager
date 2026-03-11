@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 
-const InputGroup = ({ title, name, ...rest }) => {
+import AlertMessage from "./AlertMessage";
+
+const InputGroup = ({ title, name, error, ...rest }) => {
   return (
     <div className="flex flex-col gap-1">
       <label
@@ -15,6 +17,7 @@ const InputGroup = ({ title, name, ...rest }) => {
         className="w-full rounded-lg border border-[#ECECEC] px-4 py-3 text-[14px] placeholder:text-[14px] placeholder:font-normal placeholder:text-[#9A9C9F] focus:outline-none"
         {...rest}
       />
+      {error && <AlertMessage>{error.message}</AlertMessage>}
     </div>
   );
 };
@@ -24,4 +27,5 @@ export default InputGroup;
 InputGroup.propTypes = {
   title: PropTypes.string,
   name: PropTypes.string,
+  error: PropTypes.object,
 };
