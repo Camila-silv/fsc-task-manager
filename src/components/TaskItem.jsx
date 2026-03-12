@@ -2,11 +2,13 @@ import PropTypes from "prop-types";
 import { toast } from "sonner";
 import { tv } from "tailwind-variants";
 
-import CheckedIcon from "../assets/icons/checked.svg?react";
-import LoaderIcon from "../assets/icons/loader.svg?react";
-import TaskInfIcon from "../assets/icons/task-inf.svg?react";
-import TrashIcon from "../assets/icons/trash.svg?react";
-import Button from "./Button";
+import {
+  CheckedIcon,
+  LoaderIcon,
+  TaskInfIcon,
+  TrashIcon,
+} from "../assets/icons/index";
+import { Button } from "../components/index";
 
 const TaskItem = ({ task, handleTasks, tasks }) => {
   const taskItem = tv({
@@ -37,7 +39,7 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
     },
   });
 
-  const handleTaskState = (id) => {
+  const handleTaskState = async (id) => {
     handleTasks((prevTasks) => {
       return prevTasks.map((task) => {
         if (task.id !== id) return task;
@@ -64,14 +66,70 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
       });
     });
 
-    toast.success("Estado da tarefa alterada.");
+    if (task.status === "not_started") {
+      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: "in_progress",
+        }),
+      });
+
+      if (!response.ok) {
+        toast.error("Algo deu errado. Por favor, tente novamente.");
+      }
+    }
+
+    if (task.status === "in_progress") {
+      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: "done",
+        }),
+      });
+
+      if (!response.ok) {
+        toast.error("Algo deu errado. Por favor, tente novamente.");
+      }
+    }
+
+    if (task.status === "done") {
+      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: "not_started",
+        }),
+      });
+
+      if (!response.ok) {
+        toast.error("Algo deu errado. Por favor, tente novamente.");
+      }
+    }
+
+    toast.success("Estado da tarefa alterado.");
   };
 
   const deleteTask = async (id) => {
     const result = tasks.filter((task) => task.id !== id);
     handleTasks(result);
 
-    toast.success("Tarefa deletada.");
+    const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      return toast.error("Erro ao deletar tarefa. Por favor, tente novamente.");
+    }
+
+    toast.success("Tarefa deletada com sucesso.");
   };
 
   return (
