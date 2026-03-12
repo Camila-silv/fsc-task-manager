@@ -1,35 +1,38 @@
 import { useEffect, useState } from "react";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 
-import AddTaskIcon from "../src/assets/icons/add-task.svg?react";
-import CloudSunIcon from "../src/assets/icons/cloud-sun.svg?react";
-import MoonIcon from "../src/assets/icons/moon.svg?react";
-import SunIcon from "../src/assets/icons/sun.svg?react";
-import TrashIcon from "../src/assets/icons/trash.svg?react";
-import Button from "./components/Button";
-import Modal from "./components/Modal";
-import SideBar from "./components/SideBar";
-import TaskItem from "./components/TaskItem";
-import TaskSection from "./components/TaskSection";
+import {
+  AddTaskIcon,
+  CloudSunIcon,
+  MoonIcon,
+  SunIcon,
+  TrashIcon,
+} from "../assets/icons/index";
+import {
+  Button,
+  Modal,
+  SideBar,
+  TaskItem,
+  TaskSection,
+} from "../components/index";
 
-function App() {
+function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await fetch("http://localhost:3000/tasks");
         if (!response.ok) {
-          return console.log("Algo deu errado.");
+          return toast.error("Algo deu errado.");
         }
 
         const result = await response.json();
         setTasks(result);
       } catch (error) {
         console.log(`Algo deu errado, segue o erro em questão: `.error);
-      } finally {
-        console.log("eh isto.");
       }
     };
 
@@ -114,7 +117,12 @@ function App() {
       </div>
 
       {showModal && (
-        <Modal handleShowModal={setShowModal} handleTasks={setTasks} />
+        <Modal
+          handleShowModal={setShowModal}
+          handleTasks={setTasks}
+          isLoading={isLoading}
+          handleIsLoading={setIsLoading}
+        />
       )}
 
       <Toaster />
@@ -122,4 +130,4 @@ function App() {
   );
 }
 
-export default App;
+export default Tasks;

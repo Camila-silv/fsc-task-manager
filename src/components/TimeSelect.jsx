@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import AlertMessage from "./AlertMessage";
+import { AlertMessage } from "./index";
 
 const TimeSelect = ({ error, ...rest }) => {
   return (
