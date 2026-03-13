@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import { v4 as uuid } from "uuid";
 
+import { LoaderIcon } from "../assets/icons";
 import {
   AlertMessage,
   Button,
@@ -165,7 +166,7 @@ const Modal = ({
                 type="submit"
                 disabled={isLoading}
               >
-                Salvar
+                Salvar {isLoading && <LoaderIcon className="animate-spin" />}
               </Button>
             </div>
           </form>

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { tv } from "tailwind-variants";
 
@@ -11,6 +12,8 @@ import {
 import { Button } from "../components/index";
 
 const TaskItem = ({ task, handleTasks, tasks }) => {
+  const navigate = useNavigate();
+
   const taskItem = tv({
     base: "flex items-center justify-between gap-6 rounded-[10px] px-4 py-3 text-[14px] font-normal",
     variants: {
@@ -132,6 +135,10 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
     toast.success("Tarefa deletada com sucesso.");
   };
 
+  const redirect = () => {
+    navigate(`/task/${task.id}`);
+  };
+
   return (
     <div className={taskItem({ color: task.status })}>
       <div className="flex items-center gap-3">
@@ -160,9 +167,9 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
           <TrashIcon />
         </Button>
 
-        <a href="#" title="Mais informações da tarefa">
+        <Link title="Mais informações da tarefa" onClick={redirect}>
           <TaskInfIcon />
-        </a>
+        </Link>
       </div>
     </div>
   );

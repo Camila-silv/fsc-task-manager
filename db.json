@@ -4,21 +4,21 @@
       "id": "1",
       "title": "Estudar FSC",
       "description": "traralelo trarara",
-      "status": "done",
+      "status": "in_progress",
       "time": "morning"
     },
     {
       "id": "2",
       "title": "Ler Crônicas do Mundo Emerso",
-      "description": "pipipopopo",
-      "status": "in_progress",
+      "description": "traralelo tralala",
+      "status": "done",
       "time": "afternoon"
     },
     {
       "id": "3",
       "title": "Começar a desenvover o task-manager",
       "description": "traralelo trarara",
-      "status": "done",
+      "status": "not_started",
       "time": "evening"
     },
     {
