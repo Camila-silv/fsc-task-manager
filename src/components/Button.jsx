@@ -16,6 +16,7 @@ const Button = ({
         primary: "bg-[#00ADB5] text-white",
         ghost: "bg-transparent text-[#818181]",
         secondary: "bg-[#EEEEEE] text-[#35383E]",
+        danger: "bg-[#EF4444] text-white",
       },
       size: {
         small: "rounded-[5px] px-3 py-1 text-[12px]",
