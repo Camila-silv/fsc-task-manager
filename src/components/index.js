@@ -11,8 +11,8 @@ import TimeSelect from "./TimeSelect";
 export {
   Button,
   Modal,
-  SideBar,
   TaskItem,
+  SideBar,
   TaskSection,
   TimeSelect,
   Input,
