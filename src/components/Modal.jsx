@@ -112,11 +112,11 @@ const Modal = ({
             onSubmit={addTask}
           >
             <div className="flex flex-col items-center gap-1">
-              <h2 className="text-center text-[20px] font-semibold text-[#35383E]">
+              <h2 className="text-brand-dark-blue text-center text-[20px] font-semibold">
                 Nova Tarefa
               </h2>
 
-              <h3 className="text-center text-[14px] font-normal text-[#9A9C9F]">
+              <h3 className="text-brand-text-gray] text-center text-[14px] font-normal">
                 Insira as informações abaixo
               </h3>
             </div>

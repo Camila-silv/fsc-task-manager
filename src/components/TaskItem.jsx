@@ -4,9 +4,9 @@ import { toast } from "sonner";
 import { tv } from "tailwind-variants";
 
 import {
-  CheckedIcon,
+  CheckIcon,
+  DetailsIcon,
   LoaderIcon,
-  TaskInfIcon,
   TrashIcon,
 } from "../assets/icons/index";
 import { Button } from "../components/index";
@@ -18,9 +18,9 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
     base: "flex items-center justify-between gap-6 rounded-[10px] px-4 py-3 text-[14px] font-normal",
     variants: {
       color: {
-        done: "bg-[var(--brand-primary)]/10 text-[#002C2E]",
-        in_progress: "bg-[var(--brand-process)]/10 text-[#724c00]",
-        not_started: "bg-[#D9D9D9]/10 text-[#35383E]",
+        done: "bg-brand-primary/10 text-[#002C2E]",
+        in_progress: "bg-brand-process/10 text-[#724c00]",
+        not_started: "text-brand-dark-blue bg-[#D9D9D9]/10",
       },
     },
     defaultVariants: {
@@ -32,8 +32,8 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
     base: "relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg",
     variants: {
       color: {
-        done: "bg-[var(--brand-primary)]",
-        in_progress: "bg-[var(--brand-process)]",
+        done: "bg-brand-primary",
+        in_progress: "bg-brand-process",
         not_started: "bg-[#D9D9D9]",
       },
     },
@@ -154,9 +154,9 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
             className="absolute h-full w-full cursor-pointer opacity-0"
           />
 
-          {task.status === "done" && <CheckedIcon />}
+          {task.status === "done" && <CheckIcon />}
           {task.status === "in_progress" && (
-            <LoaderIcon className="animate-spin" />
+            <LoaderIcon className="animate-spin text-white" />
           )}
         </label>
         {task.title}
@@ -168,7 +168,7 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
         </Button>
 
         <Link title="Mais informações da tarefa" onClick={redirect}>
-          <TaskInfIcon />
+          <DetailsIcon />
         </Link>
       </div>
     </div>

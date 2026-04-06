@@ -13,10 +13,10 @@ const Button = ({
     base: "flex cursor-pointer items-center justify-center gap-1 font-sans font-semibold transition delay-150 hover:opacity-75",
     variants: {
       color: {
-        primary: "bg-[#00ADB5] text-white",
-        ghost: "bg-transparent text-[#818181]",
-        secondary: "bg-[#EEEEEE] text-[#35383E]",
-        danger: "bg-[#EF4444] text-white",
+        primary: "bg-brand-primary text-white",
+        ghost: "text-brand-dark-gray bg-transparent",
+        secondary: "bg-brand-light-gray text-brand-dark-blue",
+        danger: "bg-brand-danger text-white",
       },
       size: {
         small: "rounded-[5px] px-3 py-1 text-[12px]",

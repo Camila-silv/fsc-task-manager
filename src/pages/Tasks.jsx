@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 
 import {
-  AddTaskIcon,
+  AddIcon,
   CloudSunIcon,
   MoonIcon,
   SunIcon,
@@ -45,7 +45,7 @@ function Tasks() {
 
   return (
     <>
-      <div className="mx-auto flex max-w-480 bg-[#f8f8f8]">
+      <div className="bg-brand-background mx-auto flex max-w-480">
         <SideBar />
         <main className="flex w-full flex-col gap-6 px-8.5 pt-17.5">
           <header className="flex items-end justify-between gap-3">
@@ -53,11 +53,11 @@ function Tasks() {
               <a
                 href="#"
                 title="Minhas Tarefas"
-                className="font-sans text-xs font-semibold text-[#00ADB5]"
+                className="text-brand-primary font-sans text-xs font-semibold"
               >
                 Minhas Tarefas
               </a>
-              <h2 className="text-xl font-semibold text-[#35383E]">
+              <h2 className="text-brand-dark-blue text-xl font-semibold">
                 Minhas Tarefas
               </h2>
             </div>
@@ -68,7 +68,7 @@ function Tasks() {
               </Button>
 
               <Button color="primary" onClick={() => setShowModal(true)}>
-                Nova tarefa <AddTaskIcon />
+                Nova tarefa <AddIcon />
               </Button>
             </div>
           </header>
@@ -124,8 +124,6 @@ function Tasks() {
           handleIsLoading={setIsLoading}
         />
       )}
-
-      <Toaster />
     </>
   );
 }

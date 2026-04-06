@@ -7,7 +7,7 @@ const TimeSelect = ({ error, ...rest }) => {
     <div className="flex flex-col gap-1">
       <label
         htmlFor="time"
-        className="text-[14px] font-semibold text-[#35383E]"
+        className="text-brand-dark-blue text-[14px] font-semibold"
       >
         Horário
       </label>
@@ -18,7 +18,7 @@ const TimeSelect = ({ error, ...rest }) => {
         className="w-full rounded-lg border border-[#ECECEC] px-4 py-3 text-[14px] focus:outline-none"
         {...rest}
       >
-        <option value="" disabled defaultValue>
+        <option value="" disabled>
           Selecione
         </option>
         <option value="morning">Manhã</option>
