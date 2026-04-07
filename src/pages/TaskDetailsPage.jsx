@@ -128,28 +128,25 @@ const TaskDetailsPage = () => {
             className="flex w-full flex-col gap-6"
             onSubmit={handleSubmit(changeTask)}
           >
-            <div className="flex flex-col gap-1">
-              <Label name="title" title="Título" />
-              <Input
-                name="title"
-                id="title"
-                placeholder="Título da tarefa"
-                disabled={isSubmitting}
-                {...register("title", {
-                  required: "O título é obrigatório.",
-                  validate: (value) => {
-                    if (!value.trim()) {
-                      return "O título não pode ser vázio.";
-                    }
+            <Input
+              name="title"
+              id="title"
+              placeholder="Título da tarefa"
+              disabled={isSubmitting}
+              {...register("title", {
+                required: "O título é obrigatório.",
+                validate: (value) => {
+                  if (!value.trim()) {
+                    return "O título não pode ser vázio.";
+                  }
 
-                    return true;
-                  },
-                })}
-              />
-              {errors?.title?.message && (
-                <AlertMessage>{errors?.title?.message}</AlertMessage>
-              )}
-            </div>
+                  return true;
+                },
+              })}
+              error={errors?.title?.message}
+            >
+              <Label name="title" title="Título" />
+            </Input>
 
             <TimeSelect
               error={errors?.time?.message}
