@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import SideBar from "./SideBar";
 import TaskItem from "./TaskItem";
 import TaskSection from "./TaskSection";
+import TextArea from "./Textarea";
 import TimeSelect from "./TimeSelect";
 
 export {
@@ -18,4 +19,5 @@ export {
   Input,
   Label,
   AlertMessage,
+  TextArea,
 };

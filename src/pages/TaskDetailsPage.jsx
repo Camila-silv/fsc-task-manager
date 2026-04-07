@@ -11,11 +11,11 @@ import {
   TrashIcon,
 } from "../assets/icons";
 import {
-  AlertMessage,
   Button,
   Input,
   Label,
   SideBar,
+  TextArea,
   TimeSelect,
 } from "../components";
 
@@ -163,30 +163,25 @@ const TaskDetailsPage = () => {
               })}
             />
 
-            <div className="flex flex-col gap-1">
+            <TextArea
+              name="description"
+              id="description"
+              placeholder="Descreva a tarefa"
+              disabled={isSubmitting}
+              {...register("description", {
+                required: "A descrição é obrigatória.",
+                validate: (value) => {
+                  if (!value.trim()) {
+                    return "A descrição não pode ser vázia.";
+                  }
+
+                  return true;
+                },
+              })}
+              error={errors?.description?.message}
+            >
               <Label name="description" title="Descrição" />
-
-              <textarea
-                name="description"
-                id="description"
-                placeholder="Descreva a tarefa"
-                disabled={isSubmitting}
-                className="block h-46 w-full resize-none rounded-lg border border-[#ECECEC] px-4 py-3 text-[14px] placeholder:text-[14px] placeholder:font-normal placeholder:text-[#9A9C9F] focus:outline-none"
-                {...register("description", {
-                  required: "A descrição é obrigatória.",
-                  validate: (value) => {
-                    if (!value.trim()) {
-                      return "A descrição não pode ser vázia.";
-                    }
-
-                    return true;
-                  },
-                })}
-              ></textarea>
-              {errors?.description?.message && (
-                <AlertMessage>{errors?.description?.message}</AlertMessage>
-              )}
-            </div>
+            </TextArea>
 
             <div className="flex justify-end gap-2.5">
               <Button
