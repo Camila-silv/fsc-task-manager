@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { Link } from "react-router";
 import { toast } from "sonner";
@@ -11,41 +11,15 @@ import {
   TrashIcon,
 } from "../assets/icons/index";
 import { Button } from "../components/index";
+import { useDeleteTask } from "../hook/data/use-delete-task";
+import { useUpdateTask } from "../hook/data/use-update-task";
 
 const TaskItem = ({ task, tasks }) => {
   const queryClient = useQueryClient();
 
-  const { mutate: updateTask } = useMutation({
-    mutationKey: ["updateTask"],
-    mutationFn: async (data) => {
-      const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          title: data?.title?.trim(),
-          description: data?.description?.trim(),
-          time: data?.time,
-          status: data?.status,
-        }),
-      });
+  const { mutate: updateTask } = useUpdateTask(task.id);
 
-      if (!response.ok) {
-        throw new Error();
-      }
-    },
-  });
-
-  const { mutate: deleteTask } = useMutation({
-    mutationKey: ["deleteTask"],
-    mutationFn: async () => {
-      const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error();
-      }
-    },
-  });
+  const { mutate: deleteTask } = useDeleteTask(task.id);
 
   const getNewStatus = () => {
     if (task.status === "not_started") {
@@ -85,7 +59,7 @@ const TaskItem = ({ task, tasks }) => {
       {
         onSuccess: () => {
           queryClient.setQueryData(["tasks"], newTasks);
-          toast.error("Tarefa atualizada com sucesso.");
+          toast.success("Tarefa atualizada com sucesso.");
         },
         onError: () => toast.error("Ocorreu um erro ao atualizar a tarefa."),
       }

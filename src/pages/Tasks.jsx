@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -16,6 +15,7 @@ import {
   TaskItem,
   TaskSection,
 } from "../components/index";
+import { useGetTasks } from "../hook/data/use-get-tasks";
 
 function Tasks() {
   const [showModal, setShowModal] = useState(false);
@@ -28,17 +28,7 @@ function Tasks() {
     },
   });
 
-  const { data: tasks } = useQuery({
-    queryKey: ["tasks"],
-    queryFn: async () => {
-      const response = await fetch("http://localhost:3000/tasks", {
-        method: "GET",
-      });
-
-      const tasks = await response.json();
-      return tasks;
-    },
-  });
+  const { data: tasks } = useGetTasks();
 
   const handleCancelClick = () => {
     reset({

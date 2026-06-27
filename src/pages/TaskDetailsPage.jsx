@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -19,6 +19,9 @@ import {
   TextArea,
   TimeSelect,
 } from "../components";
+import { useDeleteTask } from "../hook/data/use-delete-task";
+import { useGetTask } from "../hook/data/use-get-task";
+import { useUpdateTask } from "../hook/data/use-update-task";
 
 const TaskDetailsPage = () => {
   const { taskId } = useParams();
@@ -26,50 +29,11 @@ const TaskDetailsPage = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: task } = useQuery({
-    queryKey: ["task", taskId],
-    queryFn: async () => {
-      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-        method: "GET",
-      });
+  const { data: task } = useGetTask(taskId);
 
-      const getTask = await response.json();
-      return getTask;
-    },
-  });
+  const { mutate: deleteTask } = useDeleteTask(taskId);
 
-  const { mutate: deleteTask } = useMutation({
-    mutationKey: ["deleteTask"],
-    mutationFn: async () => {
-      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error();
-      }
-    },
-  });
-
-  const { mutate: updateTask } = useMutation({
-    mutationKey: ["updateTask", taskId],
-    mutationFn: async (data) => {
-      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          title: data?.title?.trim(),
-          description: data?.description?.trim(),
-          time: data?.time,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error();
-      }
-
-      return response.json();
-    },
-  });
+  const { mutate: updateTask } = useUpdateTask(taskId);
 
   const {
     register,
@@ -87,15 +51,15 @@ const TaskDetailsPage = () => {
   const handleClickChangeTask = async (data) => {
     updateTask(data, {
       onSuccess: () => {
-        queryClient.setQueryData(["task", taskId], data);
         toast.success("Tarefa alterada com sucesso.");
+        queryClient.setQueryData(["task", taskId], data);
       },
       onError: () => toast.error("Ocorreu um erro ao alterar a tarefa."),
     });
   };
 
   const handleClickDeleteTask = async () => {
-    deleteTask([undefined], {
+    deleteTask(undefined, {
       onSuccess: () => {
         queryClient.setQueryData(["tasks"], (currentTasks) => {
           return currentTasks.filter(

@@ -1,5 +1,5 @@
 // import { AnimatePresence, motion } from "framer-motion";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import { useForm } from "react-hook-form";
@@ -8,29 +8,11 @@ import { v4 as uuid } from "uuid";
 
 import { LoaderIcon } from "../assets/icons";
 import { Button, Input, Label, TimeSelect } from "../components/index";
+import { useAddTask } from "../hook/data/use-add-task";
 
 const Modal = ({ handleCancelClick, setShowModal }) => {
   const queryClient = useQueryClient();
-  const { mutate: addTask } = useMutation({
-    mutationKey: "addTask",
-    mutationFn: async (data) => {
-      const response = await fetch("http://localhost:3000/tasks", {
-        method: "POST",
-        body: JSON.stringify({
-          id: uuid(),
-          title: data.title.trim(),
-          time: data.time.trim(),
-          description: data.description.trim(),
-          status: "not_started",
-        }),
-      });
-      if (!response.ok) {
-        throw new Error();
-      }
-
-      return response.json();
-    },
-  });
+  const { mutate: addTask } = useAddTask();
 
   const {
     register,
@@ -46,39 +28,30 @@ const Modal = ({ handleCancelClick, setShowModal }) => {
   });
 
   const handleClickAddTask = async (data) => {
-    addTask(
-      {
-        id: uuid(),
-        title: data.title.trim(),
-        time: data.time.trim(),
-        description: data.description.trim(),
-        status: "not_started",
+    addTask(data, {
+      onSuccess: () => {
+        queryClient.setQueryData("tasks", (currentTasks) => {
+          return [
+            ...currentTasks,
+            {
+              id: uuid(),
+              title: data.title.trim(),
+              time: data.time.trim(),
+              description: data.description.trim(),
+              status: "not_started",
+            },
+          ];
+        });
+        toast.success("Tarefa adicionada com sucesso.");
+        setShowModal(false);
+        reset({
+          title: "",
+          time: "morning",
+          description: "",
+        });
       },
-      {
-        onSuccess: () => {
-          queryClient.setQueryData("tasks", (currentTasks) => {
-            return [
-              ...currentTasks,
-              {
-                id: uuid(),
-                title: data.title.trim(),
-                time: data.time.trim(),
-                description: data.description.trim(),
-                status: "not_started",
-              },
-            ];
-          });
-          toast.success("Tarefa adicionada com sucesso.");
-          setShowModal(false);
-          reset({
-            title: "",
-            time: "morning",
-            description: "",
-          });
-        },
-        onError: () => toast.error("Erro ao adicionar tarefa."),
-      }
-    );
+      onError: () => toast.error("Erro ao adicionar tarefa."),
+    });
   };
 
   return (
