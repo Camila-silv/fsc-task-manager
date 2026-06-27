@@ -5,7 +5,7 @@
       "title": "Estudar FSC",
       "description": "traralelo trarara",
       "status": "in_progress",
-      "time": "afternoon"
+      "time": "evening"
     },
     {
       "id": "2",
@@ -18,7 +18,7 @@
       "id": "3",
       "title": "Começar a desenvolver o task-manager",
       "description": "traralelo trarara",
-      "status": "in_progress",
+      "status": "done",
       "time": "morning"
     },
     {
@@ -29,10 +29,10 @@
       "time": "evening"
     },
     {
-      "id": "3295215a-73e3-46d6-9933-7f1d3041f6fd",
-      "title": "teste1",
-      "time": "afternoon",
-      "description": "traralelo tarrara",
+      "id": "61608261-0f07-4b29-a1ea-e3f49e64ed3d",
+      "title": "teste",
+      "time": "evening",
+      "description": "teste1",
       "status": "not_started"
     }
   ],

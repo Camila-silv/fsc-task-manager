@@ -1,5 +1,6 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
@@ -20,77 +21,98 @@ import {
 } from "../components";
 
 const TaskDetailsPage = () => {
-  const [task, setTask] = useState("");
   const { taskId } = useParams();
   const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
+
+  const { data: task } = useQuery({
+    queryKey: ["task", taskId],
+    queryFn: async () => {
+      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+        method: "GET",
+      });
+
+      const getTask = await response.json();
+      return getTask;
+    },
+  });
+
+  const { mutate: deleteTask } = useMutation({
+    mutationKey: ["deleteTask"],
+    mutationFn: async () => {
+      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+    },
+  });
+
+  const { mutate: updateTask } = useMutation({
+    mutationKey: ["updateTask", taskId],
+    mutationFn: async (data) => {
+      const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          title: data?.title?.trim(),
+          description: data?.description?.trim(),
+          time: data?.time,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      return response.json();
+    },
+  });
+
   const {
     register,
     formState: { errors, isSubmitting },
-    reset,
     handleSubmit,
+    reset,
   } = useForm();
 
   useEffect(() => {
-    const fetchTask = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/tasks/${taskId}`);
-        if (!response.ok) {
-          return toast.error("Algo deu errado.");
-        }
+    if (task) {
+      reset(task);
+    }
+  }, [task, reset]);
 
-        const result = await response.json();
-
-        setTask(result);
-        reset({
-          title: result.title,
-          time: result.time,
-          description: result.description,
-        });
-      } catch (error) {
-        console.log(`Algo deu errado, segue o erro em questão: `.error);
-      }
-    };
-
-    fetchTask();
-  }, [taskId, reset]);
-
-  const changeTask = async (data) => {
-    const title = data.title.trim();
-    const time = data.time.trim();
-    const description = data.description.trim();
-
-    fetch(`http://localhost:3000/tasks/${taskId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
+  const handleClickChangeTask = async (data) => {
+    updateTask(data, {
+      onSuccess: () => {
+        queryClient.setQueryData(["task", taskId], data);
+        toast.success("Tarefa alterada com sucesso.");
       },
-      body: JSON.stringify({
-        title,
-        time,
-        description,
-      }),
+      onError: () => toast.error("Ocorreu um erro ao alterar a tarefa."),
     });
-
-    toast.success("Tarefa alterada com sucesso.");
   };
 
-  const deleteTask = async () => {
-    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-      method: "DELETE",
+  const handleClickDeleteTask = async () => {
+    deleteTask([undefined], {
+      onSuccess: () => {
+        queryClient.setQueryData(["tasks"], (currentTasks) => {
+          return currentTasks.filter(
+            (currentTask) => currentTask.id !== taskId
+          );
+        });
+        toast.success("Tarefa deletada com sucesso.");
+        navigate(-1);
+      },
+      onError: () => toast.error("Ocorreu um erro ao deletar a tarefa."),
     });
-
-    if (!response.ok) {
-      return toast.error("Erro ao deletar tarefa. Por favor, tente novamente.");
-    }
-
-    toast.success("Tarefa deletada com sucesso.");
-    navigate(-1);
   };
 
   return (
-    <div className="bg-brand-background mx-auto flex max-w-480">
+    <div className="bg-brand-background mx-auto flex min-h-screen max-w-480">
       <SideBar />
-      <main className="flex w-full flex-col gap-6 px-8.5 pt-17.5">
+      <main className="flex w-full flex-col gap-6 px-8.5 pt-17.5 pb-6">
         <header className="flex items-end justify-between gap-3">
           <div className="flex flex-col gap-1.5">
             <Link
@@ -110,15 +132,15 @@ const TaskDetailsPage = () => {
               </Link>
               <ChevronRightIcon />
               <span className="text-brand-primary text-[12px] font-semibold">
-                {task.title}
+                {task?.title}
               </span>
             </div>
             <h2 className="text-brand-dark-blue text-xl font-semibold">
-              {task.title}
+              {task?.title}
             </h2>
           </div>
 
-          <Button color="danger" onClick={deleteTask}>
+          <Button color="danger" onClick={handleClickDeleteTask}>
             <TrashIcon /> Deletar tarefa{" "}
             {isSubmitting && <LoaderIcon className="animate-spin" />}
           </Button>
@@ -126,7 +148,7 @@ const TaskDetailsPage = () => {
         <div className="w-full rounded-[10px] bg-[#FFFFFF] p-6">
           <form
             className="flex w-full flex-col gap-6"
-            onSubmit={handleSubmit(changeTask)}
+            onSubmit={handleSubmit(handleClickChangeTask)}
           >
             <Input
               name="title"

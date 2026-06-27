@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import {
   AddIcon,
@@ -17,27 +18,36 @@ import {
 } from "../components/index";
 
 function Tasks() {
-  const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/tasks");
-        if (!response.ok) {
-          return toast.error("Algo deu errado.");
-        }
+  const { reset } = useForm({
+    defaultValues: {
+      title: "",
+      time: "morning",
+      description: "",
+    },
+  });
 
-        const result = await response.json();
-        setTasks(result);
-      } catch (error) {
-        console.log(`Algo deu errado, segue o erro em questão: `.error);
-      }
-    };
+  const { data: tasks } = useQuery({
+    queryKey: ["tasks"],
+    queryFn: async () => {
+      const response = await fetch("http://localhost:3000/tasks", {
+        method: "GET",
+      });
 
-    fetchTasks();
-  }, []);
+      const tasks = await response.json();
+      return tasks;
+    },
+  });
+
+  const handleCancelClick = () => {
+    reset({
+      title: "",
+      time: "morning",
+      description: "",
+    });
+    setShowModal(false);
+  };
 
   const morningTasks = tasks?.filter((task) => task.time === "morning");
   const afternoonTasks = tasks?.filter((task) => task.time === "afternoon");
@@ -45,9 +55,9 @@ function Tasks() {
 
   return (
     <>
-      <div className="bg-brand-background mx-auto flex max-w-480">
+      <div className="bg-brand-background mx-auto flex min-h-screen max-w-480">
         <SideBar />
-        <main className="flex w-full flex-col gap-6 px-8.5 pt-17.5">
+        <main className="flex w-full flex-col gap-6 px-8.5 pt-17.5 pb-6">
           <header className="flex items-end justify-between gap-3">
             <div className="flex flex-col gap-1.5">
               <a
@@ -75,41 +85,20 @@ function Tasks() {
 
           <div className="flex flex-col gap-6 rounded-[10px] bg-white p-6">
             <TaskSection icon={<SunIcon />} title="Manhã">
-              {morningTasks.map((task) => {
-                return (
-                  <TaskItem
-                    task={task}
-                    key={task.id}
-                    handleTasks={setTasks}
-                    tasks={tasks}
-                  />
-                );
+              {morningTasks?.map((task) => {
+                return <TaskItem task={task} key={task.id} tasks={tasks} />;
               })}
             </TaskSection>
 
             <TaskSection icon={<CloudSunIcon />} title="Tarde">
-              {afternoonTasks.map((task) => {
-                return (
-                  <TaskItem
-                    task={task}
-                    key={task.id}
-                    handleTasks={setTasks}
-                    tasks={tasks}
-                  />
-                );
+              {afternoonTasks?.map((task) => {
+                return <TaskItem task={task} key={task.id} tasks={tasks} />;
               })}
             </TaskSection>
 
             <TaskSection icon={<MoonIcon />} title="Noite">
-              {eveningTasks.map((task) => {
-                return (
-                  <TaskItem
-                    task={task}
-                    key={task.id}
-                    handleTasks={setTasks}
-                    tasks={tasks}
-                  />
-                );
+              {eveningTasks?.map((task) => {
+                return <TaskItem task={task} key={task.id} tasks={tasks} />;
               })}
             </TaskSection>
           </div>
@@ -118,10 +107,8 @@ function Tasks() {
 
       {showModal && (
         <Modal
-          handleShowModal={setShowModal}
-          handleTasks={setTasks}
-          isLoading={isLoading}
-          handleIsLoading={setIsLoading}
+          setShowModal={setShowModal}
+          handleCancelClick={handleCancelClick}
         />
       )}
     </>

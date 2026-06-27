@@ -1,5 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { toast } from "sonner";
 import { tv } from "tailwind-variants";
 
@@ -11,8 +12,99 @@ import {
 } from "../assets/icons/index";
 import { Button } from "../components/index";
 
-const TaskItem = ({ task, handleTasks, tasks }) => {
-  const navigate = useNavigate();
+const TaskItem = ({ task, tasks }) => {
+  const queryClient = useQueryClient();
+
+  const { mutate: updateTask } = useMutation({
+    mutationKey: ["updateTask"],
+    mutationFn: async (data) => {
+      const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          title: data?.title?.trim(),
+          description: data?.description?.trim(),
+          time: data?.time,
+          status: data?.status,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+    },
+  });
+
+  const { mutate: deleteTask } = useMutation({
+    mutationKey: ["deleteTask"],
+    mutationFn: async () => {
+      const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+    },
+  });
+
+  const getNewStatus = () => {
+    if (task.status === "not_started") {
+      return "in_progress";
+    }
+    if (task.status === "in_progress") {
+      return "done";
+    }
+    return "not_started";
+  };
+
+  const handleTaskCheckboxClick = async () => {
+    const newTasks = tasks?.map((currentTask) => {
+      if (currentTask.id !== task.id) {
+        return currentTask;
+      }
+
+      if (currentTask.status === "not_started") {
+        return { ...currentTask, status: "in_progress" };
+      }
+
+      if (currentTask.status === "in_progress") {
+        return { ...currentTask, status: "done" };
+      }
+
+      if (currentTask.status === "done") {
+        return { ...currentTask, status: "not_started" };
+      }
+
+      return currentTask;
+    });
+
+    updateTask(
+      {
+        status: getNewStatus(),
+      },
+      {
+        onSuccess: () => {
+          queryClient.setQueryData(["tasks"], newTasks);
+          toast.error("Tarefa atualizada com sucesso.");
+        },
+        onError: () => toast.error("Ocorreu um erro ao atualizar a tarefa."),
+      }
+    );
+  };
+
+  const handleClickDeleteTask = async (taskId) => {
+    deleteTask(undefined, {
+      onSuccess: () => {
+        queryClient.setQueryData(["tasks"], (currentTasks) => {
+          return currentTasks.filter(
+            (currentTask) => currentTask.id !== taskId
+          );
+        });
+        toast.success("Tarefa deletada com sucesso.");
+      },
+      onError: () => toast.error("Ocorreu um erro ao deletar a tarefa."),
+    });
+  };
 
   const taskItem = tv({
     base: "flex items-center justify-between gap-6 rounded-[10px] px-4 py-3 text-[14px] font-normal",
@@ -42,103 +134,6 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
     },
   });
 
-  const handleTaskState = async (id) => {
-    handleTasks((prevTasks) => {
-      return prevTasks.map((task) => {
-        if (task.id !== id) return task;
-
-        switch (task.status) {
-          case "not_started":
-            return {
-              ...task,
-              status: "in_progress",
-            };
-          case "in_progress":
-            return {
-              ...task,
-              status: "done",
-            };
-          case "done":
-            return {
-              ...task,
-              status: "not_started",
-            };
-          default:
-            return task;
-        }
-      });
-    });
-
-    if (task.status === "not_started") {
-      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: "in_progress",
-        }),
-      });
-
-      if (!response.ok) {
-        toast.error("Algo deu errado. Por favor, tente novamente.");
-      }
-    }
-
-    if (task.status === "in_progress") {
-      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: "done",
-        }),
-      });
-
-      if (!response.ok) {
-        toast.error("Algo deu errado. Por favor, tente novamente.");
-      }
-    }
-
-    if (task.status === "done") {
-      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: "not_started",
-        }),
-      });
-
-      if (!response.ok) {
-        toast.error("Algo deu errado. Por favor, tente novamente.");
-      }
-    }
-
-    toast.success("Estado da tarefa alterado.");
-  };
-
-  const deleteTask = async (id) => {
-    const result = tasks.filter((task) => task.id !== id);
-    handleTasks(result);
-
-    const response = await fetch(`http://localhost:3000/tasks/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      return toast.error("Erro ao deletar tarefa. Por favor, tente novamente.");
-    }
-
-    toast.success("Tarefa deletada com sucesso.");
-  };
-
-  const redirect = () => {
-    navigate(`/task/${task.id}`);
-  };
-
   return (
     <div className={taskItem({ color: task.status })}>
       <div className="flex items-center gap-3">
@@ -148,7 +143,7 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
         >
           <input
             type="checkbox"
-            onChange={() => handleTaskState(task.id)}
+            onChange={handleTaskCheckboxClick}
             id={`task-${task.id}`}
             checked={task.status === "done"}
             className="absolute h-full w-full cursor-pointer opacity-0"
@@ -163,11 +158,11 @@ const TaskItem = ({ task, handleTasks, tasks }) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button color="ghost" onClick={() => deleteTask(task.id)}>
+        <Button color="ghost" onClick={() => handleClickDeleteTask(task.id)}>
           <TrashIcon />
         </Button>
 
-        <Link title="Mais informações da tarefa" onClick={redirect}>
+        <Link title="Mais informações da tarefa" to={`/task/${task.id}`}>
           <DetailsIcon />
         </Link>
       </div>

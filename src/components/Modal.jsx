@@ -1,4 +1,5 @@
 // import { AnimatePresence, motion } from "framer-motion";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import { useForm } from "react-hook-form";
@@ -8,46 +9,76 @@ import { v4 as uuid } from "uuid";
 import { LoaderIcon } from "../assets/icons";
 import { Button, Input, Label, TimeSelect } from "../components/index";
 
-const Modal = ({ handleShowModal, handleTasks }) => {
+const Modal = ({ handleCancelClick, setShowModal }) => {
+  const queryClient = useQueryClient();
+  const { mutate: addTask } = useMutation({
+    mutationKey: "addTask",
+    mutationFn: async (data) => {
+      const response = await fetch("http://localhost:3000/tasks", {
+        method: "POST",
+        body: JSON.stringify({
+          id: uuid(),
+          title: data.title.trim(),
+          time: data.time.trim(),
+          description: data.description.trim(),
+          status: "not_started",
+        }),
+      });
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      return response.json();
+    },
+  });
+
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-  } = useForm();
+    reset,
+  } = useForm({
+    defaultValues: {
+      title: "",
+      time: "morning",
+      description: "",
+    },
+  });
 
-  const addTask = async (data) => {
-    const title = data.title.trim();
-    const time = data.time.trim();
-    const description = data.description.trim();
-
-    const newTask = {
-      id: uuid(),
-      title,
-      time,
-      description,
-      status: "not_started",
-    };
-
-    const response = await fetch("http://localhost:3000/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  const handleClickAddTask = async (data) => {
+    addTask(
+      {
+        id: uuid(),
+        title: data.title.trim(),
+        time: data.time.trim(),
+        description: data.description.trim(),
+        status: "not_started",
       },
-      body: JSON.stringify(newTask),
-    });
-
-    if (!response.ok) {
-      return toast.error(
-        "Erro ao adicionar tarefa. Por favor, tente novamente."
-      );
-    }
-
-    handleTasks((tasks) => {
-      return [...tasks, newTask];
-    });
-
-    toast.success("Tarefa adicionada com sucesso.");
-    handleShowModal(false);
+      {
+        onSuccess: () => {
+          queryClient.setQueryData("tasks", (currentTasks) => {
+            return [
+              ...currentTasks,
+              {
+                id: uuid(),
+                title: data.title.trim(),
+                time: data.time.trim(),
+                description: data.description.trim(),
+                status: "not_started",
+              },
+            ];
+          });
+          toast.success("Tarefa adicionada com sucesso.");
+          setShowModal(false);
+          reset({
+            title: "",
+            time: "morning",
+            description: "",
+          });
+        },
+        onError: () => toast.error("Erro ao adicionar tarefa."),
+      }
+    );
   };
 
   return (
@@ -56,7 +87,7 @@ const Modal = ({ handleShowModal, handleTasks }) => {
         <div className="fixed top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-[#09090B1F]">
           <form
             className="flex w-full max-w-84 flex-col gap-4 rounded-xl bg-white p-5"
-            onSubmit={handleSubmit(addTask)}
+            onSubmit={handleSubmit(handleClickAddTask)}
           >
             <div className="flex flex-col items-center gap-1">
               <h2 className="text-brand-dark-blue text-center text-[20px] font-semibold">
@@ -128,7 +159,7 @@ const Modal = ({ handleShowModal, handleTasks }) => {
                 color="secondary"
                 size="large"
                 className="w-full"
-                onClick={() => handleShowModal(false)}
+                onClick={handleCancelClick}
               >
                 Cancelar
               </Button>
@@ -154,6 +185,6 @@ const Modal = ({ handleShowModal, handleTasks }) => {
 export default Modal;
 
 Modal.propTypes = {
-  handleShowModal: PropTypes.func,
-  handleTasks: PropTypes.func,
+  handleCancelClick: PropTypes.func,
+  setShowModal: PropTypes.bool,
 };

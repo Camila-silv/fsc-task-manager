@@ -2,7 +2,7 @@ import { HomeIcon, TasksIcon } from "../assets/icons/index";
 
 const SideBar = () => {
   return (
-    <aside className="w-min-72 bg-brand-white h-screen w-72">
+    <aside className="w-min-72 bg-brand-white w-72">
       <div className="flex flex-col gap-4 px-8 py-6">
         <h1 className="text-brand-primary text-xl font-semibold">
           Task Manager
