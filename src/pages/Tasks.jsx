@@ -8,14 +8,9 @@ import {
   SunIcon,
   TrashIcon,
 } from "../assets/icons/index";
-import {
-  Button,
-  Modal,
-  SideBar,
-  TaskItem,
-  TaskSection,
-} from "../components/index";
+import { Button, TaskItem, TaskSection } from "../components/index";
 import { useGetTasks } from "../hook/data/use-get-tasks";
+import { Modal, SideBar } from "../layouts";
 
 function Tasks() {
   const [showModal, setShowModal] = useState(false);

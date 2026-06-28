@@ -10,17 +10,11 @@ import {
   LoaderIcon,
   TrashIcon,
 } from "../assets/icons";
-import {
-  Button,
-  Input,
-  Label,
-  SideBar,
-  TextArea,
-  TimeSelect,
-} from "../components";
+import { Button, Input, Label, TextArea, TimeSelect } from "../components";
 import { useDeleteTask } from "../hook/data/use-delete-task";
 import { useGetTask } from "../hook/data/use-get-task";
 import { useUpdateTask } from "../hook/data/use-update-task";
+import { SideBar } from "../layouts";
 
 const TaskDetailsPage = () => {
   const { taskId } = useParams();
