@@ -65,15 +65,15 @@ const TaskDetailsPage = () => {
         <header className="flex items-end justify-between gap-3">
           <div className="flex flex-col gap-1.5">
             <Link
-              to="/"
-              title="Home"
+              to="/tasks"
+              title="Minhas Tarefas"
               className="bg-brand-primary mb-1.5 flex h-7 w-7 items-center justify-center rounded-full p-1"
             >
               <ArrowLeftIcon />
             </Link>
             <div className="flex items-center gap-1">
               <Link
-                to="/"
+                to="/tasks"
                 title="Minhas Tarefas"
                 className="text-brand-text-gray font-sans text-[12px] font-normal"
               >

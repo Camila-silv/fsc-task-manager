@@ -1,8 +1,9 @@
 import { HomeIcon, TasksIcon } from "../assets/icons/index";
+import { SidebarButton } from "../components";
 
 const SideBar = () => {
   return (
-    <aside className="w-min-72 bg-brand-white w-72">
+    <aside className="w-min-72 bg-brand-white w-72 max-w-60">
       <div className="flex flex-col gap-4 px-8 py-6">
         <h1 className="text-brand-primary text-xl font-semibold">
           Task Manager
@@ -17,22 +18,14 @@ const SideBar = () => {
       <nav className="p-2">
         <ul className="flex flex-col gap-2">
           <li>
-            <a
-              href="#"
-              title="Início"
-              className="font-secondary text-brand-dark-blue hover:text-brand-primary flex items-center gap-2 rounded-[10px] bg-transparent px-6 py-3 text-sm font-semibold transition delay-150 duration-300 ease-in-out hover:bg-[#E6F7F8]"
-            >
+            <SidebarButton to="/" title="Início">
               <HomeIcon /> Início
-            </a>
+            </SidebarButton>
           </li>
           <li>
-            <a
-              href="#"
-              title="Minhas Tarefas"
-              className="font-secondary text-brand-primary hover:text-brand-primary flex items-center gap-2 rounded-[10px] bg-[#E6F7F8] px-6 py-3 text-sm font-semibold transition delay-150 duration-300 ease-in-out hover:bg-[#E6F7F8]"
-            >
+            <SidebarButton to="/tasks" title="Minhas Tarefas">
               <TasksIcon /> Minhas Tarefas
-            </a>
+            </SidebarButton>
           </li>
         </ul>
       </nav>

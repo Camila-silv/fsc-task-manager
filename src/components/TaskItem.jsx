@@ -107,7 +107,7 @@ const TaskItem = ({ task }) => {
           <TrashIcon />
         </Button>
 
-        <Link title="Mais informações da tarefa" to={`/task/${task.id}`}>
+        <Link title="Mais informações da tarefa" to={`/tasks/${task.id}`}>
           <DetailsIcon />
         </Link>
       </div>
@@ -119,5 +119,4 @@ export default TaskItem;
 
 TaskItem.propTypes = {
   task: PropTypes.object,
-  handleTasks: PropTypes.func,
 };
