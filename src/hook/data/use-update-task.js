@@ -1,6 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUpdateTask = (taskId) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["updateTask", taskId],
     mutationFn: async (data) => {
@@ -19,6 +21,9 @@ export const useUpdateTask = (taskId) => {
       }
 
       return response.json();
+    },
+    onSuccess: (taskUpdata) => {
+      queryClient.setQueryData(["task", taskId], taskUpdata);
     },
   });
 };

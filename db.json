@@ -11,14 +11,14 @@
       "id": "2",
       "title": "Ler Crônicas do Mundo Emerso",
       "description": "traralelo tralala",
-      "status": "done",
+      "status": "in_progress",
       "time": "afternoon"
     },
     {
       "id": "3",
       "title": "Começar a desenvolver o task-manager",
       "description": "traralelo trarara",
-      "status": "done",
+      "status": "not_started",
       "time": "afternoon"
     },
     {
@@ -27,20 +27,6 @@
       "description": "traralelo trarara",
       "status": "in_progress",
       "time": "evening"
-    },
-    {
-      "id": "e2cdc257-0a2e-4f69-acaa-662927b638c6",
-      "title": "teste155",
-      "time": "morning",
-      "description": "asdsad",
-      "status": "not_started"
-    },
-    {
-      "id": "d98948e4-7ff7-42d3-a003-bd05f45b1ce1",
-      "title": "blablalba",
-      "time": "morning",
-      "description": "dfd",
-      "status": "not_started"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

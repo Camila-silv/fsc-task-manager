@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { Link } from "react-router";
 import { toast } from "sonner";
@@ -14,9 +13,7 @@ import { Button } from "../components/index";
 import { useDeleteTask } from "../hook/data/use-delete-task";
 import { useUpdateTask } from "../hook/data/use-update-task";
 
-const TaskItem = ({ task, tasks }) => {
-  const queryClient = useQueryClient();
-
+const TaskItem = ({ task }) => {
   const { mutate: updateTask } = useUpdateTask(task.id);
 
   const { mutate: deleteTask } = useDeleteTask(task.id);
@@ -32,33 +29,12 @@ const TaskItem = ({ task, tasks }) => {
   };
 
   const handleTaskCheckboxClick = async () => {
-    const newTasks = tasks?.map((currentTask) => {
-      if (currentTask.id !== task.id) {
-        return currentTask;
-      }
-
-      if (currentTask.status === "not_started") {
-        return { ...currentTask, status: "in_progress" };
-      }
-
-      if (currentTask.status === "in_progress") {
-        return { ...currentTask, status: "done" };
-      }
-
-      if (currentTask.status === "done") {
-        return { ...currentTask, status: "not_started" };
-      }
-
-      return currentTask;
-    });
-
     updateTask(
       {
         status: getNewStatus(),
       },
       {
         onSuccess: () => {
-          queryClient.setQueryData(["tasks"], newTasks);
           toast.success("Tarefa atualizada com sucesso.");
         },
         onError: () => toast.error("Ocorreu um erro ao atualizar a tarefa."),
@@ -66,14 +42,9 @@ const TaskItem = ({ task, tasks }) => {
     );
   };
 
-  const handleClickDeleteTask = async (taskId) => {
+  const handleClickDeleteTask = async () => {
     deleteTask(undefined, {
       onSuccess: () => {
-        queryClient.setQueryData(["tasks"], (currentTasks) => {
-          return currentTasks.filter(
-            (currentTask) => currentTask.id !== taskId
-          );
-        });
         toast.success("Tarefa deletada com sucesso.");
       },
       onError: () => toast.error("Ocorreu um erro ao deletar a tarefa."),
@@ -148,6 +119,5 @@ export default TaskItem;
 
 TaskItem.propTypes = {
   task: PropTypes.object,
-  tasks: PropTypes.array,
   handleTasks: PropTypes.func,
 };

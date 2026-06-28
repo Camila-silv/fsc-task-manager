@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -27,8 +26,6 @@ const TaskDetailsPage = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
 
-  const queryClient = useQueryClient();
-
   const { data: task } = useGetTask(taskId);
 
   const { mutate: deleteTask } = useDeleteTask(taskId);
@@ -52,7 +49,6 @@ const TaskDetailsPage = () => {
     updateTask(data, {
       onSuccess: () => {
         toast.success("Tarefa alterada com sucesso.");
-        queryClient.setQueryData(["task", taskId], data);
       },
       onError: () => toast.error("Ocorreu um erro ao alterar a tarefa."),
     });
@@ -61,11 +57,6 @@ const TaskDetailsPage = () => {
   const handleClickDeleteTask = async () => {
     deleteTask(undefined, {
       onSuccess: () => {
-        queryClient.setQueryData(["tasks"], (currentTasks) => {
-          return currentTasks.filter(
-            (currentTask) => currentTask.id !== taskId
-          );
-        });
         toast.success("Tarefa deletada com sucesso.");
         navigate(-1);
       },

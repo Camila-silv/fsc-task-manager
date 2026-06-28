@@ -1,6 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteTask = (taskId) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["deleteTask"],
     mutationFn: async () => {
@@ -11,6 +13,11 @@ export const useDeleteTask = (taskId) => {
       if (!response.ok) {
         throw new Error();
       }
+    },
+    onSuccess: () => {
+      queryClient.setQueryData(["tasks"], (currentTasks) => {
+        return currentTasks.filter((currentTask) => currentTask.id !== taskId);
+      });
     },
   });
 };

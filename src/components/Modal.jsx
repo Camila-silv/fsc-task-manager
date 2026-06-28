@@ -1,5 +1,4 @@
 // import { AnimatePresence, motion } from "framer-motion";
-import { useQueryClient } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import { useForm } from "react-hook-form";
@@ -11,7 +10,6 @@ import { Button, Input, Label, TimeSelect } from "../components/index";
 import { useAddTask } from "../hook/data/use-add-task";
 
 const Modal = ({ handleCancelClick, setShowModal }) => {
-  const queryClient = useQueryClient();
   const { mutate: addTask } = useAddTask();
 
   const {
@@ -28,30 +26,27 @@ const Modal = ({ handleCancelClick, setShowModal }) => {
   });
 
   const handleClickAddTask = async (data) => {
-    addTask(data, {
-      onSuccess: () => {
-        queryClient.setQueryData("tasks", (currentTasks) => {
-          return [
-            ...currentTasks,
-            {
-              id: uuid(),
-              title: data.title.trim(),
-              time: data.time.trim(),
-              description: data.description.trim(),
-              status: "not_started",
-            },
-          ];
-        });
-        toast.success("Tarefa adicionada com sucesso.");
-        setShowModal(false);
-        reset({
-          title: "",
-          time: "morning",
-          description: "",
-        });
+    addTask(
+      {
+        id: uuid(),
+        title: data.title.trim(),
+        time: data.time.trim(),
+        description: data.description.trim(),
+        status: "not_started",
       },
-      onError: () => toast.error("Erro ao adicionar tarefa."),
-    });
+      {
+        onSuccess: () => {
+          toast.success("Tarefa adicionada com sucesso.");
+          setShowModal(false);
+          reset({
+            title: "",
+            time: "morning",
+            description: "",
+          });
+        },
+        onError: () => toast.error("Erro ao adicionar tarefa."),
+      }
+    );
   };
 
   return (
