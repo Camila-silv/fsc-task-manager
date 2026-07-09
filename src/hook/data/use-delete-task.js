@@ -4,17 +4,17 @@ import { taskMutationKeys } from "../../keys/mutations";
 import { taskQueryKeys } from "../../keys/queries";
 import { api } from "../../libs/axios";
 
-export const useDeleteTask = (taskId) => {
+export const useDeleteTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: taskMutationKeys.delete(taskId),
-    mutationFn: async () => {
+    mutationKey: taskMutationKeys.delete(),
+    mutationFn: async (taskId) => {
       const { data: deleteTask } = await api.delete(`tasks/${taskId}`);
 
       return deleteTask;
     },
-    onSuccess: () => {
+    onSuccess: (_data, taskId) => {
       queryClient.setQueryData(taskQueryKeys.getAll(), (currentTasks) => {
         return currentTasks.filter((currentTask) => currentTask.id !== taskId);
       });

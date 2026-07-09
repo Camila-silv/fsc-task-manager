@@ -9,7 +9,8 @@ import {
   TasksIcon,
   TrashIcon,
 } from "../assets/icons";
-import { Button, TaskItem } from "../components";
+import { Button, Card, TaskItem } from "../components";
+import { useDeleteTask } from "../hook/data/use-delete-task";
 import { useGetTasks } from "../hook/data/use-get-tasks";
 import { Modal, SideBar } from "../layouts";
 
@@ -32,6 +33,14 @@ function Home() {
       description: "",
     });
     setShowModal(false);
+  };
+
+  const { mutate: deleteTask } = useDeleteTask();
+
+  const handleDeletedTasks = () => {
+    tasks.forEach((task) => {
+      deleteTask(task.id);
+    });
   };
 
   const completedTasks = tasks?.filter((task) => task.status === "done");
@@ -57,7 +66,7 @@ function Home() {
             </div>
 
             <div className="flex gap-2.5">
-              <Button color="ghost">
+              <Button color="ghost" onClick={handleDeletedTasks}>
                 Limpar tarefas <TrashIcon />
               </Button>
 
@@ -67,55 +76,23 @@ function Home() {
             </div>
           </header>
           <div className="grid grid-cols-1 gap-8.5 lg:grid-cols-4">
-            <div className="bg-brand-white flex min-h-37.25 w-full flex-col items-center justify-center gap-1.5 rounded-[10px] p-6 text-center">
-              <div className="flex items-center gap-2">
-                <Tasks2Icon className="text-brand-primary h-6 w-6 shrink" />{" "}
-                <span className="text-brand-dark-blue font-sans text-[30px] font-semibold">
-                  {tasks?.length}
-                </span>
-              </div>
-              <h2 className="font-tertiary text-brand-dark-blue text-center text-[16px] font-normal">
-                Tarefas disponíveis
-              </h2>
-            </div>
+            <Card number={tasks?.length} title="Tarefas disponíveis">
+              <Tasks2Icon className="text-brand-primary h-6 w-6 shrink" />
+            </Card>
 
-            <div className="bg-brand-white flex min-h-37.25 w-full flex-col items-center justify-center gap-1.5 rounded-[10px] p-6 text-center">
-              <div className="flex items-center gap-2">
-                <TasksIcon className="text-brand-primary h-6 w-6 shrink" />{" "}
-                <span className="text-brand-dark-blue font-sans text-[30px] font-semibold">
-                  {completedTasks?.length}
-                </span>
-              </div>
-              <h2 className="font-tertiary text-brand-dark-blue text-center text-[16px] font-normal">
-                Tarefas concluídas
-              </h2>
-            </div>
+            <Card number={completedTasks?.length} title="Tarefas concluídas">
+              <TasksIcon className="text-brand-primary h-6 w-6 shrink" />
+            </Card>
 
-            <div className="bg-brand-white flex min-h-37.25 w-full flex-col items-center justify-center gap-1.5 rounded-[10px] p-6 text-center">
-              <div className="flex items-center gap-2">
-                <LoaderIcon className="text-brand-primary h-6 w-6 shrink" />{" "}
-                <span className="text-brand-dark-blue font-sans text-[30px] font-semibold">
-                  {tasksProgress?.length}
-                </span>
-              </div>
-              <h2 className="font-tertiary text-brand-dark-blue text-center text-[16px] font-normal">
-                Tarefas em andamento
-              </h2>
-            </div>
+            <Card number={tasksProgress?.length} title="Tarefas em andamento">
+              <LoaderIcon className="text-brand-primary h-6 w-6 shrink" />
+            </Card>
 
-            <div className="bg-brand-white flex min-h-37.25 w-full flex-col items-center justify-center gap-1.5 rounded-[10px] p-6 text-center">
-              <div className="flex items-center gap-2">
-                <GlassWaterIcon className="text-brand-primary h-6 w-6 shrink" />{" "}
-                <span className="text-brand-dark-blue font-sans text-[30px] font-semibold">
-                  ...
-                </span>
-              </div>
-              <h2 className="font-tertiary text-brand-dark-blue text-center text-[16px] font-normal">
-                Água
-              </h2>
-            </div>
+            <Card number="..." title="Água">
+              <GlassWaterIcon className="text-brand-primary h-6 w-6 shrink" />
+            </Card>
           </div>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
+          <div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-5">
             <div className="bg-brand-white flex flex-col gap-6 rounded-[10px] p-6 lg:col-span-3">
               <header>
                 <h2 className="text-brand-dark-blue font-sans text-[20px] font-semibold">
@@ -126,12 +103,13 @@ function Home() {
                 </p>
               </header>
 
-              <div className="flex flex-col gap-3">
+              <div className="flex h-full flex-col gap-3">
                 {tasks?.map((task) => {
                   return <TaskItem task={task} key={task.id} />;
                 })}
               </div>
             </div>
+
             <div className="bg-brand-white flex flex-col gap-6 rounded-[10px] p-6 lg:col-span-2">
               <header>
                 <h2 className="text-brand-dark-blue font-sans text-[20px] font-semibold">

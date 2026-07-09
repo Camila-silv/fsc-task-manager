@@ -16,7 +16,7 @@ import { useUpdateTask } from "../hook/data/use-update-task";
 const TaskItem = ({ task }) => {
   const { mutate: updateTask } = useUpdateTask(task.id);
 
-  const { mutate: deleteTask } = useDeleteTask(task.id);
+  const { mutate: deleteTask } = useDeleteTask();
 
   const getNewStatus = () => {
     if (task.status === "not_started") {
@@ -43,7 +43,7 @@ const TaskItem = ({ task }) => {
   };
 
   const handleClickDeleteTask = async () => {
-    deleteTask(undefined, {
+    deleteTask(task.id, {
       onSuccess: () => {
         toast.success("Tarefa deletada com sucesso.");
       },

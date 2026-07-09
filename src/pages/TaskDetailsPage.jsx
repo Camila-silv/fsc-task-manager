@@ -22,7 +22,7 @@ const TaskDetailsPage = () => {
 
   const { data: task } = useGetTask(taskId);
 
-  const { mutate: deleteTask } = useDeleteTask(taskId);
+  const { mutate: deleteTask } = useDeleteTask();
 
   const { mutate: updateTask } = useUpdateTask(taskId);
 
@@ -49,7 +49,7 @@ const TaskDetailsPage = () => {
   };
 
   const handleClickDeleteTask = async () => {
-    deleteTask(undefined, {
+    deleteTask(taskId, {
       onSuccess: () => {
         toast.success("Tarefa deletada com sucesso.");
         navigate(-1);

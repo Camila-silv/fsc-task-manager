@@ -9,6 +9,7 @@ import {
   TrashIcon,
 } from "../assets/icons/index";
 import { Button, TaskItem, TaskSection } from "../components/index";
+import { useDeleteTask } from "../hook/data/use-delete-task";
 import { useGetTasks } from "../hook/data/use-get-tasks";
 import { Modal, SideBar } from "../layouts";
 
@@ -32,6 +33,14 @@ function Tasks() {
       description: "",
     });
     setShowModal(false);
+  };
+
+  const { mutate: deleteTask } = useDeleteTask();
+
+  const handleDeletedTasks = () => {
+    tasks.forEach((task) => {
+      deleteTask(task.id);
+    });
   };
 
   const morningTasks = tasks?.filter((task) => task.time === "morning");
@@ -58,7 +67,7 @@ function Tasks() {
             </div>
 
             <div className="flex gap-2.5">
-              <Button color="ghost">
+              <Button color="ghost" onClick={handleDeletedTasks}>
                 Limpar tarefas <TrashIcon />
               </Button>
 

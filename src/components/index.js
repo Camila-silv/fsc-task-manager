@@ -1,5 +1,6 @@
 import AlertMessage from "./AlertMessage";
 import Button from "./Button";
+import Card from "./Card";
 import Input from "./Input";
 import Label from "./Label";
 import SidebarButton from "./SidebarButton";
@@ -18,4 +19,5 @@ export {
   AlertMessage,
   TextArea,
   SidebarButton,
+  Card,
 };
