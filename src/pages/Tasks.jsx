@@ -71,19 +71,19 @@ function Tasks() {
           <div className="flex flex-col gap-6 rounded-[10px] bg-white p-6">
             <TaskSection icon={<SunIcon />} title="Manhã">
               {morningTasks?.map((task) => {
-                return <TaskItem task={task} key={task.id} tasks={tasks} />;
+                return <TaskItem task={task} key={task.id} />;
               })}
             </TaskSection>
 
             <TaskSection icon={<CloudSunIcon />} title="Tarde">
               {afternoonTasks?.map((task) => {
-                return <TaskItem task={task} key={task.id} tasks={tasks} />;
+                return <TaskItem task={task} key={task.id} />;
               })}
             </TaskSection>
 
             <TaskSection icon={<MoonIcon />} title="Noite">
               {eveningTasks?.map((task) => {
-                return <TaskItem task={task} key={task.id} tasks={tasks} />;
+                return <TaskItem task={task} key={task.id} />;
               })}
             </TaskSection>
           </div>
