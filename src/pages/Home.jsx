@@ -9,7 +9,13 @@ import {
   TasksIcon,
   TrashIcon,
 } from "../assets/icons";
-import { Button, Card, TaskItem } from "../components";
+import {
+  Button,
+  Card,
+  DashboardCard,
+  TaskItem,
+  WaterItem,
+} from "../components";
 import { useDeleteTask } from "../hook/data/use-delete-task";
 import { useGetTasks } from "../hook/data/use-get-tasks";
 import { Modal, SideBar } from "../layouts";
@@ -50,7 +56,7 @@ function Home() {
     <>
       <div className="bg-brand-background mx-auto flex min-h-screen max-w-480">
         <SideBar />
-        <main className="flex w-full flex-col gap-6 px-8.5 pt-17.5 pb-6">
+        <main className="flex h-screen w-full flex-col gap-6 overflow-scroll px-8.5 pt-17.5 pb-6">
           <header className="flex items-end justify-between gap-3">
             <div className="flex flex-col gap-1.5">
               <a
@@ -93,33 +99,69 @@ function Home() {
             </Card>
           </div>
           <div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-5">
-            <div className="bg-brand-white flex flex-col gap-6 rounded-[10px] p-6 lg:col-span-3">
-              <header>
-                <h2 className="text-brand-dark-blue font-sans text-[20px] font-semibold">
-                  Tarefas
-                </h2>
-                <p className="text-brand-text-gray font-sans text-[14px] font-normal">
-                  Resumo das tarefas disponíveis
-                </p>
-              </header>
-
+            <DashboardCard
+              className="lg:col-span-3"
+              title="Tarefas"
+              parag="Resumo das tarefas disponíveis"
+            >
               <div className="flex h-full flex-col gap-3">
                 {tasks?.map((task) => {
                   return <TaskItem task={task} key={task.id} />;
                 })}
               </div>
-            </div>
+            </DashboardCard>
 
-            <div className="bg-brand-white flex flex-col gap-6 rounded-[10px] p-6 lg:col-span-2">
-              <header>
-                <h2 className="text-brand-dark-blue font-sans text-[20px] font-semibold">
-                  Água
-                </h2>
-                <p className="text-brand-text-gray font-sans text-[14px] font-normal">
-                  Beba sua meta diária de água
-                </p>
-              </header>
-            </div>
+            <DashboardCard
+              className="lg:col-span-2"
+              title="Água"
+              parag="Beba sua meta diária de água"
+            >
+              <div className="flex grow items-end justify-between gap-6">
+                <div className="flex flex-col gap-3">
+                  <WaterItem
+                    task={{
+                      id: "1",
+                      title: "500 ml",
+                      status: "done",
+                    }}
+                  />
+                  <WaterItem
+                    task={{
+                      id: "1",
+                      title: "1 litro",
+                      status: "done",
+                    }}
+                  />
+                  <WaterItem
+                    task={{
+                      id: "1",
+                      title: "1.5 litros",
+                      status: "not_started",
+                    }}
+                  />
+                  <WaterItem
+                    task={{
+                      id: "1",
+                      title: "2 litros",
+                      status: "not_started",
+                    }}
+                  />
+                  <WaterItem
+                    task={{
+                      id: "1",
+                      title: "2.5 litros",
+                      status: "not_started",
+                    }}
+                  />
+                </div>
+                <span className="text-brand-dark-blue font-sans text-[12px] font-normal">
+                  <span className="text-brand-primary text-[20px] font-semibold">
+                    1 litro
+                  </span>
+                  /2.5L
+                </span>
+              </div>
+            </DashboardCard>
           </div>
         </main>
       </div>

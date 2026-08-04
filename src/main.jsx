@@ -7,15 +7,39 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { Toaster } from "sonner";
 
-import Home from "./pages/Home.jsx";
-import TaskDetailsPage from "./pages/TaskDetailsPage.jsx";
-import Tasks from "./pages/Tasks.jsx";
+import { AuthLayout } from "./layouts";
+import {
+  ForgotPassword,
+  Home,
+  Login,
+  Register,
+  TaskDetailsPage,
+  Tasks,
+} from "./pages";
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true,
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+    ],
+  },
+  {
+    path: "/home",
     element: <Home />,
   },
   {

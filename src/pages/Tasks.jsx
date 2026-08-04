@@ -51,7 +51,7 @@ function Tasks() {
     <>
       <div className="bg-brand-background mx-auto flex min-h-screen max-w-480">
         <SideBar />
-        <main className="flex w-full flex-col gap-6 px-8.5 pt-17.5 pb-6">
+        <main className="flex h-screen w-full flex-col gap-6 overflow-scroll px-8.5 pt-17.5 pb-6">
           <header className="flex items-end justify-between gap-3">
             <div className="flex flex-col gap-1.5">
               <a
