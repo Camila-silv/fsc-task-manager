@@ -5,7 +5,11 @@ import { TasksIcon } from "../assets/icons/index";
 import { InputGroup } from "../components";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm({
     defaultValues: {
       email: "",
       password: "",
@@ -108,6 +112,7 @@ const Login = () => {
           </p>
           <form onSubmit={handleSubmit(handleLogin)}>
             <InputGroup
+              disabled={isSubmitting}
               label="email"
               title="E-mail"
               type="email"
@@ -124,6 +129,7 @@ const Login = () => {
             />
 
             <InputGroup
+              disabled={isSubmitting}
               label="password"
               title="Senha"
               type="password"
@@ -144,7 +150,12 @@ const Login = () => {
                 htmlFor="rememberme"
                 className="text-brand-text-gray flex items-center gap-2 text-[0.85rem] font-medium"
               >
-                <input type="checkbox" id="rememberme" name="rememberme" />
+                <input
+                  type="checkbox"
+                  id="rememberme"
+                  name="rememberme"
+                  disabled={isSubmitting}
+                />
                 <span>Lembrar de mim</span>
               </label>
 
@@ -152,11 +163,17 @@ const Login = () => {
                 to="/forgot-password"
                 title="Esqueceu a senha?"
                 className="text-brand-primary cursor-pointer text-[0.85rem] font-bold no-underline hover:underline"
+                onClick={(e) => {
+                  if (isSubmitting) {
+                    e.preventDefault();
+                  }
+                }}
               >
                 Esqueceu a senha?
               </Link>
             </div>
             <input
+              disabled={isSubmitting}
               type="submit"
               value="Entrar"
               className="bg-brand-primary w-full cursor-pointer rounded-[10px] border-[none] p-[0.85rem] text-[0.95rem] font-bold text-white [transition:background_0.15s_ease] hover:bg-[#008188]"
@@ -169,6 +186,11 @@ const Login = () => {
             href="#"
             title="Entrar com Google"
             className="border-brand-border hover:border-brand-primary flex w-full cursor-pointer items-center justify-center gap-[0.6rem] rounded-[10px] border-[1.5px] bg-white p-3 text-[0.88rem] font-bold [transition:border-color_0.15s_ease,background_0.15s_ease] hover:bg-[#00acb526]"
+            onClick={(e) => {
+              if (isSubmitting) {
+                e.preventDefault();
+              }
+            }}
           >
             <svg width="18" height="18" viewBox="0 0 18 18">
               <path
@@ -196,6 +218,11 @@ const Login = () => {
               to="/register"
               title="Criar conta"
               className="cursor-pointer font-bold text-[#008188] no-underline hover:underline"
+              onClick={(e) => {
+                if (isSubmitting) {
+                  e.preventDefault();
+                }
+              }}
             >
               Criar conta
             </Link>
