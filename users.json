@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": "user-1effb3be-5aac-4e44-8d1b-4f26809d7154",
+      "email": "teste@mail.com",
+      "password": "124",
+      "tasks": [
+        {
+          "id": "task-1effb3be-5aac-4e44-8d1b-4f26809d7154",
+          "title": "teste",
+          "time": "morning",
+          "description": "ssdfdsf",
+          "status": "in_progress"
+        }
+      ]
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

@@ -1,9 +1,41 @@
+import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
 import { TasksIcon } from "../assets/icons/index";
 import { InputGroup } from "../components";
 
 const Login = () => {
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const handleLogin = (data) => {
+    const fetchUsers = async () => {
+      const response = await fetch("http://localhost:4000/users", {
+        method: "GET",
+      });
+      const convertedResponse = await response.json();
+      const search = convertedResponse.find(
+        (element) => element.email === data.email
+      );
+
+      if (!search) {
+        return alert("nao encontrado!!");
+      }
+
+      if (!(search.email === data.email && search.password === data.password)) {
+        return alert("senha ou e-mail incorreto");
+      }
+
+      //criar logica que realiza o login na conta do usuario, e direciona para a aba home
+      return alert("deu bom");
+    };
+
+    fetchUsers();
+  };
   return (
     <>
       <div className="flex flex-col items-start justify-between gap-6 bg-[linear-gradient(160deg,#008188_0%,#00adb5_60%,#3fc4cb_100%)] px-14 py-12">
@@ -74,12 +106,21 @@ const Login = () => {
           <p className="text-brand-text-gray mb-[1.8rem] text-[0.88rem] leading-normal">
             Informe suas credenciais para acessar suas tarefas.
           </p>
-          <form action="">
+          <form onSubmit={handleSubmit(handleLogin)}>
             <InputGroup
-              label="mail"
+              label="email"
               title="E-mail"
               type="email"
               placeholder="exemplo@email.com"
+              {...register("email", {
+                required: "O título é obrigatório.",
+                validate: (value) => {
+                  if (!value.trim()) {
+                    return "O título não pode ser vázio.";
+                  }
+                  return true;
+                },
+              })}
             />
 
             <InputGroup
@@ -87,6 +128,15 @@ const Login = () => {
               title="Senha"
               type="password"
               placeholder="••••••••"
+              {...register("password", {
+                required: "A senha é obrigatória.",
+                validate: (value) => {
+                  if (!value.trim()) {
+                    return "A senha é obrigatória.";
+                  }
+                  return true;
+                },
+              })}
             />
 
             <div className="mb-[1.4rem] flex items-center justify-between gap-1.5">
