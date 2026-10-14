@@ -19,13 +19,13 @@ const Register = () => {
         <div>
           <h2 className="text-brand-white font-sans text-[32px] leading-10 font-semibold">
             Seu primeiro passo
-            <br />
-            para dias mais <br />
+            <br className="hidden lg:block" />
+            para dias mais <br className="hidden lg:block" />
             produtivos
           </h2>
           <p className="mt-[0.9rem] mb-[1.2rem] font-sans text-[15px] leading-6 font-normal text-[rgba(255,255,255,0.85)]">
             Crie sua conta gratuita e comece a organizar
-            <br />
+            <br className="hidden lg:block" />
             tarefas, metas de água e hábitos hoje mesmo.
           </p>
           <div className="flex flex-col gap-4.5">
@@ -65,7 +65,7 @@ const Register = () => {
         </p>
       </div>
       <div className="p-10">
-        <div className="flex h-full w-full max-w-95 flex-col justify-center lg:mx-auto">
+        <div className="flex h-full w-full max-w-full flex-col justify-center lg:mx-auto lg:max-w-95">
           <span className="text-brand-primary mb-2 text-[12.8px] font-bold tracking-[0.96px] uppercase">
             Começar agora
           </span>

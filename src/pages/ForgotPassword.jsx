@@ -19,12 +19,12 @@ const ForgotPassword = () => {
         <div>
           <h2 className="text-brand-white font-sans text-[32px] leading-10 font-semibold">
             Acontece com todo
-            <br />
+            <br className="hidden lg:block" />
             mundo
           </h2>
           <p className="mt-[0.9rem] mb-[1.2rem] font-sans text-[15px] leading-6 font-normal text-[rgba(255,255,255,0.85)]">
             Informe seu e-mail e enviaremos um link seguro
-            <br />
+            <br className="hidden lg:block" />
             para você criar uma nova senha.
           </p>
           <div className="flex flex-col gap-4.5">
@@ -64,7 +64,7 @@ const ForgotPassword = () => {
         </p>
       </div>
       <div className="p-10">
-        <div className="flex h-full w-full max-w-95 flex-col justify-center lg:mx-auto">
+        <div className="flex h-full w-full max-w-full flex-col justify-center lg:mx-auto lg:max-w-95">
           <span className="text-brand-primary mb-2 text-[12.8px] font-bold tracking-[0.96px] uppercase">
             Recuperação de senha
           </span>
@@ -73,7 +73,7 @@ const ForgotPassword = () => {
           </h2>
           <p className="text-brand-text-gray mb-[1.8rem] text-[0.88rem] leading-normal">
             Sem problema. Digite o e-mail associado à sua
-            <br />
+            <br className="hidden lg:block" />
             conta.
           </p>
           <form action="">
